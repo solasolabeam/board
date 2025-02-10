@@ -8,50 +8,43 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // const handleRegist = async () => {
+  //   console.log("login");
+  //   const res = fetch("https://front-mission.bigs.or.kr/auth/signin", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       username,
+  //       password,
+  //     }),
+  //   });
+
+  //   const data = await (await res).json();
+
+  //   if ((await res).ok) {
+  //     localStorage.setItem("accessToken", data.accessToken);
+  //   } else {
+  //     console.error("Login failed", data);
+  //   }
+  // };
+
   const handleRegist = async () => {
-    console.log("login");
-    const res = fetch("https://front-mission.bigs.or.kr/auth/signin", {
+    console.log("register");
+    await fetch("https://front-mission.bigs.or.kr/auth/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         username,
+        name,
         password,
+        confirmPassword,
       }),
     });
-
-    const data = await (await res).json();
-
-    if ((await res).ok) {
-      localStorage.setItem("accessToken", data.accessToken);
-    } else {
-      console.error("Login failed", data);
-    }
   };
-
-  // const handleRegister = async () => {
-  //   console.log("register");
-  //   const res = await fetch("https://front-mission.bigs.or.kr/boards/219", {
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  //   const data = await res.json();
-  //   console.log(data);
-  // fetch("https://front-mission.bigs.or.kr/auth/signup", {
-  //     method: "POST",
-  //     headers: {
-  //         "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //         username,
-  //         password,
-  //     }),
-  // })
-  // };
   return (
     <div className="flex justify-center items-center h-screen mx-5">
       <div className="w-full">

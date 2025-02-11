@@ -49,6 +49,7 @@ export default function LoginPage() {
 
       if ((await res).ok) {
         localStorage.setItem("accessToken", data.accessToken);
+        router.push("/");
       } else {
         console.error("Login failed", data);
       }

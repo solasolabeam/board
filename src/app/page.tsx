@@ -1,9 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
 import StickyHeadTable from "./_components/ReactTable";
+import useUserStore from "./store";
 
 export default function Home() {
   const router = useRouter();
+  const user = useUserStore((state) => state.user);
+  console.log("setUser", user);
   return (
     <div className="mx-5">
       <div className="mt-10" />

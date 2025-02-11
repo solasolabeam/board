@@ -3,9 +3,11 @@
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
+import useUserStore from "../store";
 
 export default function LoginPage() {
   const router = useRouter();
+  const setUser = useUserStore((state) => state.setUser);
 
   const formik = useFormik({
     initialValues: {
@@ -48,6 +50,9 @@ export default function LoginPage() {
       const data = await (await res).json();
 
       if ((await res).ok) {
+        setUser({
+          username: values.username,
+        });
         localStorage.setItem("accessToken", data.accessToken);
         router.push("/");
       } else {

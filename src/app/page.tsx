@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import StickyHeadTable from "./_components/ReactTable";
+import StickyHeadTable from "./(components)/ReactTable";
 import useUserStore from "./store";
 
 export default function Home() {

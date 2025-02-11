@@ -9,75 +9,78 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import { Button } from "@mui/material";
 
 interface Column {
-  id: "name" | "code" | "population" | "size" | "density";
+  id: "title" | "category" | "createdAt" | "actions";
   label: string;
   minWidth?: number;
-  align?: "right";
-  format?: (value: number) => string;
+  align?: "right" | "center";
+  format?: (value: string) => string;
 }
 
 const columns: readonly Column[] = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
+  { id: "title", label: "제목", minWidth: 100 },
+  { id: "category", label: "카테고리", minWidth: 100 },
   {
-    id: "population",
-    label: "Population",
-    minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
+    id: "createdAt",
+    label: "작성일",
+    minWidth: 120,
+    align: "center",
+    format: (value: string) => value.split("T")[0],
   },
-  {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
-    minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "density",
-    label: "Density",
-    minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toFixed(2),
-  },
+  { id: "actions", label: "기능", align: "center", minWidth: 100 },
 ];
 
-interface Data {
-  name: string;
-  code: string;
-  population: number;
-  size: number;
-  density: number;
-}
-
-function createData(
-  name: string,
-  code: string,
-  population: number,
-  size: number
-): Data {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
 const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767),
+  {
+    id: 5,
+    title: "공지1",
+    category: "NOTICE",
+    createdAt: "2024-11-11T09:29:45.721114",
+  },
+  {
+    id: 6,
+    title: "공지2",
+    category: "NOTICE",
+    createdAt: "2024-11-11T09:42:12.11129",
+  },
+  {
+    id: 12,
+    title: "공지3",
+    category: "NOTICE",
+    createdAt: "2024-11-13T09:13:07.432346",
+  },
+  {
+    id: 13,
+    title: "공지4",
+    category: "NOTICE",
+    createdAt: "2024-11-13T09:13:34.721977",
+  },
+  {
+    id: 15,
+    title: "공지5",
+    category: "NOTICE",
+    createdAt: "2024-11-13T10:41:39.424863",
+  },
+  {
+    id: 16,
+    title: "공지6",
+    category: "NOTICE",
+    createdAt: "2024-11-13T10:43:26.716577",
+  },
+  {
+    id: 17,
+    title: "공지7",
+    category: "NOTICE",
+    createdAt: "2024-11-13T10:45:15.267487",
+  },
+  {
+    id: 18,
+    title: "공지8",
+    category: "NOTICE",
+    createdAt: "2024-11-13T10:46:29.278927",
+  },
 ];
 
 export default function StickyHeadTable() {
@@ -117,14 +120,36 @@ export default function StickyHeadTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
-                      const value = row[column.id];
+                      const value = row[column.id as keyof typeof row] || "";
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
+                          {column.id === "actions" ? (
+                            <div className="flex">
+                              <Button
+                                variant="contained"
+                                color="info"
+                                size="small"
+                                onClick={() => console.log("수정:", row.id)}
+                              >
+                                수정
+                              </Button>
+                              <Button
+                                variant="contained"
+                                color="warning"
+                                size="small"
+                                sx={{ ml: 1 }} // 왼쪽 마진 추가
+                                onClick={() => console.log("삭제:", row.id)}
+                              >
+                                삭제
+                              </Button>
+                            </div>
+                          ) : column.format ? (
+                            column.format(String(value))
+                          ) : (
+                            value
+                          )}
                         </TableCell>
                       );
                     })}

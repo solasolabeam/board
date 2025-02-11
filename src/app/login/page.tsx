@@ -71,7 +71,7 @@ export default function LoginPage() {
             className="border border-gray-300 p-3 rounded-md"
           />
           {formik.touched.username && formik.errors.username && (
-            <p>{formik.errors.username}</p>
+            <p className="text-red-500 text-xs">{formik.errors.username}</p>
           )}
           <input
             value={formik.values.password}
@@ -86,7 +86,7 @@ export default function LoginPage() {
             className="border border-gray-300 p-3 rounded-md"
           />
           {formik.touched.password && formik.errors.password && (
-            <p>{formik.errors.password}</p>
+            <p className="text-red-500 text-xs">{formik.errors.password}</p>
           )}
           <button
             className="bg-gray-500 text-white p-3 rounded-md"

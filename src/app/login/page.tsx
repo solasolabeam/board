@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 import useUserStore from "../store";
+import Header from "../(components)/Header";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -62,52 +63,57 @@ export default function LoginPage() {
   });
 
   return (
-    <div className="flex justify-center items-center h-screen mx-5">
-      <div className="w-full">
-        <p className="text-4xl text-center">로그인</p>
-        <div className="mt-10" />
-        <form onSubmit={formik.handleSubmit} className="flex flex-col gap-5">
-          <input
-            value={formik.values.username}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            name="username"
-            type="text"
-            placeholder="이메일 형식"
-            className="border border-gray-300 p-3 rounded-md"
-          />
-          {formik.touched.username && formik.errors.username && (
-            <p className="text-red-500 text-xs">{formik.errors.username}</p>
-          )}
-          <input
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            name="password"
-            // onKeyUp={(e) => {
-            //   if (e.key === "Enter") handleLogin();
-            // }}
-            type="password"
-            placeholder="비밀번호"
-            className="border border-gray-300 p-3 rounded-md"
-          />
-          {formik.touched.password && formik.errors.password && (
-            <p className="text-red-500 text-xs">{formik.errors.password}</p>
-          )}
-          <button
-            className="bg-gray-500 text-white p-3 rounded-md"
-            // onClick={handleLogin}
-            type="submit"
-          >
-            로그인
-          </button>
-          <button
-            className="border border-gray-400  text-black p-3 rounded-md"
-            onClick={() => router.push("/register")}
-          >
-            회원가입
-          </button>
-        </form>
+    <div className="mx-5">
+      <div className="mt-10" />
+      <Header />
+      <div className="mt-48" />
+      <div className="flex justify-center items-center">
+        <div className="w-full">
+          <p className="text-4xl text-center">로그인</p>
+          <div className="mt-10" />
+          <form onSubmit={formik.handleSubmit} className="flex flex-col gap-5">
+            <input
+              value={formik.values.username}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              name="username"
+              type="text"
+              placeholder="이메일 형식"
+              className="border border-gray-300 p-3 rounded-md"
+            />
+            {formik.touched.username && formik.errors.username && (
+              <p className="text-red-500 text-xs">{formik.errors.username}</p>
+            )}
+            <input
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              name="password"
+              // onKeyUp={(e) => {
+              //   if (e.key === "Enter") handleLogin();
+              // }}
+              type="password"
+              placeholder="비밀번호"
+              className="border border-gray-300 p-3 rounded-md"
+            />
+            {formik.touched.password && formik.errors.password && (
+              <p className="text-red-500 text-xs">{formik.errors.password}</p>
+            )}
+            <button
+              className="bg-gray-500 text-white p-3 rounded-md"
+              // onClick={handleLogin}
+              type="submit"
+            >
+              로그인
+            </button>
+            <button
+              className="border border-gray-400  text-black p-3 rounded-md"
+              onClick={() => router.push("/register")}
+            >
+              회원가입
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

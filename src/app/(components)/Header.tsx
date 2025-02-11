@@ -8,7 +8,9 @@ export default function Header() {
   const user = useUserStore((state) => state.user);
   return (
     <div className="flex justify-between items-center">
-      <p className="text-4xl">홈페이지</p>
+      <p className="text-4xl" onClick={() => router.push("/")}>
+        홈페이지
+      </p>
       {user ? (
         <div className="flex-col gap-5 text-end">
           <p className="text-sm">{user.username} 님</p>

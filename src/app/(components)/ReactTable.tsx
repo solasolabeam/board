@@ -10,6 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { Button } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 interface Column {
   id: "title" | "category" | "createdAt" | "actions";
@@ -32,17 +33,19 @@ const columns: readonly Column[] = [
   { id: "actions", label: "기능", align: "center", minWidth: 100 },
 ];
 
+interface Row {
+  id: number;
+  title: string;
+  category: string;
+  createdAt: string;
+}
+
 export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  interface Row {
-    id: number;
-    title: string;
-    category: string;
-    createdAt: string;
-  }
-
   const [rows, setRows] = React.useState<Row[]>([]);
+
+  const router = useRouter();
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -113,7 +116,7 @@ export default function StickyHeadTable() {
                           <TableCell
                             key={column.id}
                             align={column.align}
-                            onClick={() => console.log("클릭:", row.id)}
+                            onClick={() => router.push(`/detail/${row.id}`)}
                             className="cursor-pointer"
                           >
                             {column.id === "actions" ? (

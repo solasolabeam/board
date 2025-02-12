@@ -32,60 +32,45 @@ const columns: readonly Column[] = [
   { id: "actions", label: "기능", align: "center", minWidth: 100 },
 ];
 
-const rows = [
-  {
-    id: 5,
-    title: "공지1",
-    category: "NOTICE",
-    createdAt: "2024-11-11T09:29:45.721114",
-  },
-  {
-    id: 6,
-    title: "공지2",
-    category: "NOTICE",
-    createdAt: "2024-11-11T09:42:12.11129",
-  },
-  {
-    id: 12,
-    title: "공지3",
-    category: "NOTICE",
-    createdAt: "2024-11-13T09:13:07.432346",
-  },
-  {
-    id: 13,
-    title: "공지4",
-    category: "NOTICE",
-    createdAt: "2024-11-13T09:13:34.721977",
-  },
-  {
-    id: 15,
-    title: "공지5",
-    category: "NOTICE",
-    createdAt: "2024-11-13T10:41:39.424863",
-  },
-  {
-    id: 16,
-    title: "공지6",
-    category: "NOTICE",
-    createdAt: "2024-11-13T10:43:26.716577",
-  },
-  {
-    id: 17,
-    title: "공지7",
-    category: "NOTICE",
-    createdAt: "2024-11-13T10:45:15.267487",
-  },
-  {
-    id: 18,
-    title: "공지8",
-    category: "NOTICE",
-    createdAt: "2024-11-13T10:46:29.278927",
-  },
-];
-
 export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  interface Row {
+    id: number;
+    title: string;
+    category: string;
+    createdAt: string;
+  }
+
+  const [rows, setRows] = React.useState<Row[]>([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://front-mission.bigs.or.kr/boards?page=0&size=10",
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("accessToken"),
+            },
+          }
+        );
+
+        if (!response.ok) {
+          // 응답 코드가 200번대가 아니면 예외 처리
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("data", data);
+        setRows(data.content);
+      } catch (error) {
+        console.log("Error:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -116,53 +101,59 @@ export default function StickyHeadTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    {columns.map((column) => {
-                      const value = row[column.id as keyof typeof row] || "";
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.id === "actions" ? (
-                            <div className="flex justify-center">
-                              <Button
-                                variant="contained"
-                                color="info"
-                                size="small"
-                                onClick={() => console.log("수정:", row.id)}
-                              >
-                                수정
-                              </Button>
-                              <Button
-                                variant="contained"
-                                color="warning"
-                                size="small"
-                                sx={{ ml: 1 }} // 왼쪽 마진 추가
-                                onClick={() => console.log("삭제:", row.id)}
-                              >
-                                삭제
-                              </Button>
-                            </div>
-                          ) : column.format ? (
-                            column.format(String(value))
-                          ) : (
-                            value
-                          )}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+            {rows.length > 0 &&
+              rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => {
+                  return (
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                      {columns.map((column) => {
+                        const value = row[column.id as keyof typeof row] || "";
+                        return (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            onClick={() => console.log("클릭:", row.id)}
+                            className="cursor-pointer"
+                          >
+                            {column.id === "actions" ? (
+                              <div className="flex justify-center">
+                                <Button
+                                  variant="contained"
+                                  color="info"
+                                  size="small"
+                                  onClick={() => console.log("수정:", row.id)}
+                                >
+                                  수정
+                                </Button>
+                                <Button
+                                  variant="contained"
+                                  color="warning"
+                                  size="small"
+                                  sx={{ ml: 1 }} // 왼쪽 마진 추가
+                                  onClick={() => console.log("삭제:", row.id)}
+                                >
+                                  삭제
+                                </Button>
+                              </div>
+                            ) : column.format ? (
+                              column.format(String(value))
+                            ) : (
+                              value
+                            )}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={rows?.length || 0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

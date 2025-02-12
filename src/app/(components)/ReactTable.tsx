@@ -126,7 +126,7 @@ export default function StickyHeadTable() {
                       return (
                         <TableCell key={column.id} align={column.align}>
                           {column.id === "actions" ? (
-                            <div className="flex">
+                            <div className="flex justify-center">
                               <Button
                                 variant="contained"
                                 color="info"

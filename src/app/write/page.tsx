@@ -10,9 +10,11 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function WritePage() {
+  const searchParams = useSearchParams();
+  console.log("searchParams", searchParams.get("id"));
   const [file, setFile] = useState<File | null>(null);
   const [categoryList, setCategoryList] = useState<{ [key: string]: string }>(
     {}
@@ -41,7 +43,7 @@ export default function WritePage() {
 
     const requestData = JSON.stringify({
       title: title,
-      category: "NOTICE",
+      category: category,
       content: content,
     });
 
@@ -51,16 +53,18 @@ export default function WritePage() {
     );
 
     try {
-      const response = await fetch("https://front-mission.bigs.or.kr/boards", {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("accessToken"),
-        },
-        body: formData,
-      });
-
-      const data = await response.json();
-      console.log("Response:", response.status, data);
+      await fetch(
+        `https://front-mission.bigs.or.kr/boards${
+          searchParams.get("id") && "/" + searchParams.get("id")
+        }`,
+        {
+          method: searchParams.get("id") ? "PATCH" : "POST",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+          },
+          body: formData,
+        }
+      );
     } catch (error) {
       console.error("Upload Error:", error);
     }
@@ -77,10 +81,31 @@ export default function WritePage() {
         }
       );
       const data = await response.json();
-      console.log("data", data);
       setCategoryList(data);
     };
+
+    const searchData = async () => {
+      try {
+        const response = await fetch(
+          `https://front-mission.bigs.or.kr/boards/${searchParams.get("id")}`,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("accessToken"),
+            },
+          }
+        );
+        const data = await response.json();
+        setCategory(data.boardCategory);
+        setContent(data.content);
+        setTitle(data.title);
+        // setImageUrl(data.imageUrl);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
     searchCategory();
+    searchData();
   }, []);
   return (
     <div className="mx-5">
@@ -144,7 +169,7 @@ export default function WritePage() {
           color="primary"
           onClick={handleClick}
         >
-          저장
+          {searchParams.get("id") ? "수정" : "등록"}
         </Button>
       </div>
     </div>

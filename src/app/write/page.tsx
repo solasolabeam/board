@@ -14,12 +14,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 export default function WritePage() {
   const searchParams = useSearchParams();
-  console.log("searchParams", searchParams.get("id"));
   const [file, setFile] = useState<File | null>(null);
   const [categoryList, setCategoryList] = useState<{ [key: string]: string }>(
     {}
   );
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("NOTICE");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const router = useRouter();
@@ -55,7 +54,7 @@ export default function WritePage() {
     try {
       await fetch(
         `https://front-mission.bigs.or.kr/boards${
-          searchParams.get("id") && "/" + searchParams.get("id")
+          searchParams.get("id") ? "/" + searchParams.get("id") : ""
         }`,
         {
           method: searchParams.get("id") ? "PATCH" : "POST",
@@ -65,6 +64,7 @@ export default function WritePage() {
           body: formData,
         }
       );
+      router.push("/");
     } catch (error) {
       console.error("Upload Error:", error);
     }
@@ -87,7 +87,9 @@ export default function WritePage() {
     const searchData = async () => {
       try {
         const response = await fetch(
-          `https://front-mission.bigs.or.kr/boards/${searchParams.get("id")}`,
+          `https://front-mission.bigs.or.kr/boards${
+            "/" + searchParams.get("id")
+          }`,
           {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("accessToken"),
@@ -95,9 +97,9 @@ export default function WritePage() {
           }
         );
         const data = await response.json();
-        setCategory(data.boardCategory);
-        setContent(data.content);
-        setTitle(data.title);
+        setCategory(data.boardCategory || "");
+        setContent(data.content || "");
+        setTitle(data.title || "");
         // setImageUrl(data.imageUrl);
       } catch (error) {
         console.error("Error:", error);
@@ -105,8 +107,14 @@ export default function WritePage() {
     };
 
     searchCategory();
-    searchData();
+    if (searchParams.get("id")) {
+      searchData();
+    }
   }, []);
+
+  useEffect(() => {
+    console.log("content", content);
+  }, [content]);
   return (
     <div className="mx-5">
       <div className="mt-10" />
@@ -118,7 +126,7 @@ export default function WritePage() {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={category}
+            value={category || ""}
             label="카테고리"
             onChange={handleChange}
             className="w-1/2"

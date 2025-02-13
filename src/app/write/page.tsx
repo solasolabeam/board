@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Header from "../(components)/Header";
 import {
   Button,
+  FormControl,
   InputLabel,
   MenuItem,
   Select,
@@ -87,21 +88,23 @@ export default function WritePage() {
       <Header />
       <div className="mt-16" />
       <div className="flex flex-col gap-4">
-        <InputLabel id="demo-simple-select-label">카테고리</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={category}
-          label="카테고리"
-          onChange={handleChange}
-          className="w-1/2"
-        >
-          {Object.entries(categoryList).map(([value, label]) => (
-            <MenuItem key={value} value={value}>
-              {label}
-            </MenuItem>
-          ))}
-        </Select>
+        <FormControl>
+          <InputLabel id="demo-simple-select-label">카테고리</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={category}
+            label="카테고리"
+            onChange={handleChange}
+            className="w-1/2"
+          >
+            {Object.entries(categoryList).map(([value, label]) => (
+              <MenuItem key={value} value={value}>
+                {label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <TextField
           label="글 제목"
           variant="outlined"

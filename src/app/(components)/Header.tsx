@@ -7,10 +7,12 @@ export default function Header() {
   const router = useRouter();
   const user = useUserStore((state) => state.user);
   return (
-    <div className="flex justify-end items-center">
+    <div>
       {user ? (
-        <div className="flex-col gap-5 text-end">
-          <p className="text-sm">{user.username} 님</p>
+        <div className="flex justify-end gap-5">
+          <p className="text-sm">
+            <span className="font-bold">{user.username}</span> 님
+          </p>
           <p
             className="text-sm"
             onClick={() => {

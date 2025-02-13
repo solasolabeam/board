@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 export default function DetailPage() {
   const params = useParams();
-  const [category, setBoardCategory] = useState("");
+  const [category, setCategory] = useState("");
   const [content, setContent] = useState("");
   const [createdAt, setCreatedAt] = useState("");
   const [title, setTitle] = useState("");
@@ -25,7 +25,7 @@ export default function DetailPage() {
         );
         const data = await response.json();
         console.log("data", data);
-        setBoardCategory(data.category);
+        setCategory(data.category);
         setContent(data.content);
         setCreatedAt(data.createdAt);
         setTitle(data.title);
@@ -40,12 +40,42 @@ export default function DetailPage() {
     <div className="mx-5">
       <div className="mt-10" />
       <Header />
+
       <div className="mt-16" />
-      <div className="border-t-2 border-b border-black border-b-gray-300 py-9">
-        <p className="text-center text-xl">{title}</p>
-      </div>
-      <div className="py-4 h-[500px] overflow-hidden border-b-2 border-black">
-        {content}
+
+      <div className="grid grid-rows-5 grid-cols-[1fr_2fr] gap-6 p-6">
+        <div className="flex items-center justify-center text-lg font-bold mb-2">
+          카테고리
+        </div>
+        <div className="flex items-center text-base mb-4">{category}</div>
+        <div className="flex items-center justify-center text-lg font-bold mb-2">
+          작성일
+        </div>
+        <div className="flex items-center text-base mb-4">{createdAt}</div>
+        <div className="flex items-center justify-center text-lg font-bold mb-2">
+          제목
+        </div>
+        <div className="flex items-center text-base mb-4">{title}</div>
+        <div className="flex items-center justify-center text-lg font-bold mb-2">
+          내용
+        </div>
+        <div className="text-base">{content}</div>
+        <div className="flex items-center justify-center text-lg font-bold mb-2">
+          첨부파일
+        </div>
+        <div className="flex items-center text-base">
+          {imageUrl && (
+            <a
+              href={`https://front-mission.bigs.or.kr${imageUrl}`}
+              download="image.png"
+              rel="noopener noreferrer" // 추가하여 보안을 강화!
+            >
+              <p className="text-blue-500 cursor-pointer">
+                {imageUrl.replace("/media/images/", "")}
+              </p>
+            </a>
+          )}
+        </div>
       </div>
 
       <div className="mt-8"></div>

@@ -8,7 +8,7 @@ export default function Header() {
   const user = useUserStore((state) => state.user);
   return (
     <div>
-      {user ? (
+      {user && (
         <div className="flex justify-end gap-5">
           <p className="text-sm">
             <span className="font-bold">{user.username}</span> 님
@@ -22,15 +22,6 @@ export default function Header() {
             }}
           >
             로그아웃
-          </p>
-        </div>
-      ) : (
-        <div className="flex gap-5">
-          <p className="text-sm" onClick={() => router.push("/login")}>
-            로그인
-          </p>
-          <p className="text-sm" onClick={() => router.push("/register")}>
-            회원가입
           </p>
         </div>
       )}

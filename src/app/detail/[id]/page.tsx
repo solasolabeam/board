@@ -45,7 +45,7 @@ export default function DetailPage() {
       }
     };
     fetchData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className="mx-5">
       <div className="mt-10" />

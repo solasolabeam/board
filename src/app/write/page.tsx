@@ -10,10 +10,9 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function WritePage() {
-  const searchParams = useSearchParams();
   const [file, setFile] = useState<File | null>(null);
   const [categoryList, setCategoryList] = useState<{ [key: string]: string }>(
     {}
@@ -22,6 +21,18 @@ export default function WritePage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const router = useRouter();
+
+  // 클라이언트에서만 useSearchParams 사용하기 위해 useEffect로 감싸기
+  const [searchParams, setSearchParams] = useState<URLSearchParams | null>(
+    null
+  );
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      setSearchParams(params);
+    }
+  }, []);
 
   const handleChange = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
@@ -54,10 +65,10 @@ export default function WritePage() {
     try {
       await fetch(
         `https://front-mission.bigs.or.kr/boards${
-          searchParams.get("id") ? "/" + searchParams.get("id") : ""
+          searchParams?.get("id") ? "/" + searchParams.get("id") : ""
         }`,
         {
-          method: searchParams.get("id") ? "PATCH" : "POST",
+          method: searchParams?.get("id") ? "PATCH" : "POST",
           headers: {
             Authorization: "Bearer " + localStorage.getItem("accessToken"),
           },
@@ -88,7 +99,7 @@ export default function WritePage() {
       try {
         const response = await fetch(
           `https://front-mission.bigs.or.kr/boards${
-            "/" + searchParams.get("id")
+            "/" + searchParams?.get("id")
           }`,
           {
             headers: {
@@ -107,14 +118,11 @@ export default function WritePage() {
     };
 
     searchCategory();
-    if (searchParams.get("id")) {
+    if (searchParams?.get("id")) {
       searchData();
     }
-  }, []);
+  }, [searchParams]); // searchParams가 변경될 때마다 실행
 
-  useEffect(() => {
-    console.log("content", content);
-  }, [content]);
   return (
     <div className="mx-5">
       <div className="mt-10" />
@@ -177,7 +185,7 @@ export default function WritePage() {
           color="primary"
           onClick={handleClick}
         >
-          {searchParams.get("id") ? "수정" : "등록"}
+          {searchParams?.get("id") ? "수정" : "등록"}
         </Button>
       </div>
     </div>

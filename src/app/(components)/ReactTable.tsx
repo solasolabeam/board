@@ -30,7 +30,7 @@ const columns: readonly Column[] = [
     align: "center",
     format: (value: string) => value.split("T")[0],
   },
-  { id: "actions", label: "기능", align: "center", minWidth: 100 },
+  { id: "actions", label: "", align: "center", minWidth: 100 },
 ];
 
 interface Row {

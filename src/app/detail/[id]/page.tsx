@@ -43,7 +43,7 @@ export default function DetailPage() {
 
       <div className="mt-16" />
 
-      <div className="grid grid-rows-5 grid-cols-[1fr_2fr] gap-6">
+      <div className="grid grid-rows-[1fr_1fr_1fr_200px_1fr] grid-cols-[1fr_2fr] gap-6">
         <div className="flex items-center justify-center text-lg font-bold ">
           카테고리
         </div>
@@ -80,20 +80,20 @@ export default function DetailPage() {
         </div>
       </div>
 
-      <div className="mt-16"></div>
+      <div className="mt-48"></div>
 
       <div className="flex justify-end gap-2">
-        <button className="bg-gray-500 text-white py-3 px-6 rounded-md">
-          수정
-        </button>
-        <button className="bg-gray-500 text-white py-3 px-6 rounded-md">
-          삭제
-        </button>
         <button
           className="bg-gray-500 text-white py-3 px-6 rounded-md"
           onClick={() => router.push("/")}
         >
           목록
+        </button>
+        <button className="bg-gray-500 text-white py-3 px-6 rounded-md">
+          수정
+        </button>
+        <button className="bg-gray-500 text-white py-3 px-6 rounded-md">
+          삭제
         </button>
       </div>
     </div>

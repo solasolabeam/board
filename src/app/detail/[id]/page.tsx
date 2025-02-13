@@ -25,7 +25,7 @@ export default function DetailPage() {
         );
         const data = await response.json();
         console.log("data", data);
-        setCategory(data.category);
+        setCategory(data.boardCategory);
         setContent(data.content);
         setCreatedAt(data.createdAt);
         setTitle(data.title);
@@ -43,32 +43,34 @@ export default function DetailPage() {
 
       <div className="mt-16" />
 
-      <div className="grid grid-rows-5 grid-cols-[1fr_2fr] gap-6 p-6">
-        <div className="flex items-center justify-center text-lg font-bold mb-2">
+      <div className="grid grid-rows-5 grid-cols-[1fr_2fr] gap-6">
+        <div className="flex items-center justify-center text-lg font-bold ">
           카테고리
         </div>
-        <div className="flex items-center text-base mb-4">{category}</div>
-        <div className="flex items-center justify-center text-lg font-bold mb-2">
+        <div className="flex items-center text-base ">{category}</div>
+        <div className="flex items-center justify-center text-lg font-bold ">
           작성일
         </div>
-        <div className="flex items-center text-base mb-4">{createdAt}</div>
-        <div className="flex items-center justify-center text-lg font-bold mb-2">
+        <div className="flex items-center text-base ">
+          {createdAt &&
+            new Date(createdAt).toISOString().slice(0, 16).replace("T", " ")}
+        </div>
+        <div className="flex items-center justify-center text-lg font-bold ">
           제목
         </div>
-        <div className="flex items-center text-base mb-4">{title}</div>
-        <div className="flex items-center justify-center text-lg font-bold mb-2">
+        <div className="flex items-center text-base ">{title}</div>
+        <div className="flex items-center justify-center text-lg font-bold ">
           내용
         </div>
         <div className="text-base">{content}</div>
-        <div className="flex items-center justify-center text-lg font-bold mb-2">
+        <div className="flex items-center justify-center text-lg font-bold ">
           첨부파일
         </div>
         <div className="flex items-center text-base">
           {imageUrl && (
             <a
               href={`https://front-mission.bigs.or.kr${imageUrl}`}
-              download="image.png"
-              rel="noopener noreferrer" // 추가하여 보안을 강화!
+              target="_blank"
             >
               <p className="text-blue-500 cursor-pointer">
                 {imageUrl.replace("/media/images/", "")}
@@ -78,7 +80,7 @@ export default function DetailPage() {
         </div>
       </div>
 
-      <div className="mt-8"></div>
+      <div className="mt-16"></div>
 
       <div className="flex justify-end gap-2">
         <button className="bg-gray-500 text-white py-3 px-6 rounded-md">

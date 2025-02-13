@@ -12,6 +12,17 @@ export default function DetailPage() {
   const [imageUrl, setImageUrl] = useState("");
   const router = useRouter();
 
+  const handleDelete = async () => {
+    await fetch(`https://front-mission.bigs.or.kr/boards/${params.id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+      },
+    });
+
+    router.push("/");
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -24,7 +35,6 @@ export default function DetailPage() {
           }
         );
         const data = await response.json();
-        console.log("data", data);
         setCategory(data.boardCategory);
         setContent(data.content);
         setCreatedAt(data.createdAt);
@@ -89,10 +99,16 @@ export default function DetailPage() {
         >
           목록
         </button>
-        <button className="bg-gray-500 text-white py-3 px-6 rounded-md">
+        <button
+          className="bg-gray-500 text-white py-3 px-6 rounded-md"
+          onClick={() => router.push(`/write?id=${params.id}`)}
+        >
           수정
         </button>
-        <button className="bg-gray-500 text-white py-3 px-6 rounded-md">
+        <button
+          className="bg-gray-500 text-white py-3 px-6 rounded-md"
+          onClick={handleDelete}
+        >
           삭제
         </button>
       </div>

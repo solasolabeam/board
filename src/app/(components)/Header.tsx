@@ -19,6 +19,7 @@ export default function Header() {
             onClick={() => {
               useUserStore.getState().setUser(null);
               localStorage.removeItem("accessToken");
+              router.push("/login");
             }}
           >
             로그아웃

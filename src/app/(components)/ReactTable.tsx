@@ -13,7 +13,7 @@ import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 interface Column {
-  id: "title" | "category" | "createdAt" | "actions";
+  id: "no" | "title" | "category" | "createdAt" | "actions";
   label: string;
   minWidth?: number;
   align?: "right" | "center";
@@ -21,6 +21,7 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
+  { id: "no", label: "No.", minWidth: 50, align: "center" },
   { id: "title", label: "제목", minWidth: 100 },
   { id: "category", label: "카테고리", minWidth: 100 },
   {
@@ -107,11 +108,17 @@ export default function StickyHeadTable() {
             {rows.length > 0 &&
               rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
+                .map((row, index) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                       {columns.map((column) => {
-                        const value = row[column.id as keyof typeof row] || "";
+                        let value;
+
+                        if (column.id === "no") {
+                          value = page * rowsPerPage + index + 1; // 행번호 계산
+                        } else {
+                          value = row[column.id as keyof typeof row] || "";
+                        }
                         return (
                           <TableCell
                             key={column.id}

@@ -1,6 +1,6 @@
 "use client";
 import Header from "@/app/(components)/Header";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function DetailPage() {
@@ -10,6 +10,7 @@ export default function DetailPage() {
   const [createdAt, setCreatedAt] = useState("");
   const [title, setTitle] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,11 +47,23 @@ export default function DetailPage() {
       <div className="py-4 h-[500px] overflow-hidden border-b-2 border-black">
         {content}
       </div>
+
       <div className="mt-8"></div>
-      <button className="bg-gray-500 text-white p-3 rounded-md">수정</button>
-      <button className="px-4 py-2 border-2 border-gray-300 rounded-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-gray-500">
-        버튼 텍스트
-      </button>
+
+      <div className="flex justify-end gap-2">
+        <button className="bg-gray-500 text-white py-3 px-6 rounded-md">
+          수정
+        </button>
+        <button className="bg-gray-500 text-white py-3 px-6 rounded-md">
+          삭제
+        </button>
+        <button
+          className="bg-gray-500 text-white py-3 px-6 rounded-md"
+          onClick={() => router.push("/")}
+        >
+          목록
+        </button>
+      </div>
     </div>
   );
 }

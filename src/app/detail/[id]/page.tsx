@@ -1,5 +1,11 @@
 "use client";
 import Header from "@/app/(components)/Header";
+import {
+  faList,
+  faPenToSquare,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, CircularProgress } from "@mui/material";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -109,22 +115,25 @@ export default function DetailPage() {
 
           <div className="flex justify-end gap-2">
             <button
-              className="rounded-md bg-gray-500 px-6 py-3 text-white"
+              className="rounded-md bg-gray-400 px-4 py-3 text-white shadow-md transition-all duration-200 hover:bg-gray-400 active:bg-gray-400 active:bg-opacity-80"
               onClick={() => router.push("/")}
             >
-              목록
+              <FontAwesomeIcon icon={faList} />
+              &nbsp; 목록
             </button>
             <button
-              className="rounded-md bg-gray-500 px-6 py-3 text-white"
+              className="rounded-md px-4 py-3 text-gray-500 shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
               onClick={() => router.push(`/write?id=${params.id}`)}
             >
-              수정
+              <FontAwesomeIcon icon={faPenToSquare} color="#6b7280" />
+              &nbsp; 수정
             </button>
             <button
-              className="rounded-md bg-gray-500 px-6 py-3 text-white"
+              className="rounded-md px-4 py-3 text-gray-500 shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
               onClick={handleDelete}
             >
-              삭제
+              <FontAwesomeIcon icon={faTrash} />
+              &nbsp; 삭제
             </button>
           </div>
         </>

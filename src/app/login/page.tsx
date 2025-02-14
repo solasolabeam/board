@@ -34,7 +34,6 @@ export default function LoginPage() {
         ),
     }),
     onSubmit: async (values) => {
-      console.log("폼 데이터:", values);
       console.log("login");
       const res = fetch("https://front-mission.bigs.or.kr/auth/signin", {
         method: "POST",

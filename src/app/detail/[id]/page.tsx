@@ -62,7 +62,7 @@ export default function DetailPage() {
         </Box>
       ) : (
         <>
-          <div className="grid grid-cols-[1fr_3fr] grid-rows-[1fr_1fr_1fr_minmax(200px,auto)_1fr] gap-1">
+          <div className="grid grid-cols-[1fr_3fr] grid-rows-[minmax(70px,auto)_minmax(70px,auto)_minmax(70px,auto)_minmax(200px,auto)_minmax(70px,auto)] gap-1">
             <div className="flex items-center justify-center rounded-md bg-slate-500 text-sm font-bold text-white">
               카테고리
             </div>

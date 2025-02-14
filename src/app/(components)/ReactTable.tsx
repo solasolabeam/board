@@ -11,7 +11,11 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { Box, CircularProgress } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPenToSquare,
+  faPlus,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { useRouter } from "next/navigation";
 
@@ -118,10 +122,10 @@ export default function StickyHeadTable() {
         <div className="mx-5">
           <div className="mb-4 flex justify-end">
             <button
-              className="rounded-md bg-gray-500 px-6 py-3 text-white shadow-md transition-all duration-200 hover:bg-gray-600 active:bg-gray-400 active:bg-opacity-80"
+              className="rounded-md px-4 py-3 text-gray-500 shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
               onClick={() => router.push("/write")}
             >
-              글 작성
+              <FontAwesomeIcon icon={faPlus} /> &nbsp; 글 작성
             </button>
           </div>
           <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -182,7 +186,7 @@ export default function StickyHeadTable() {
                                   {column.id === "actions" ? (
                                     <div className="flex justify-center gap-4">
                                       <button
-                                        className="rounded-md px-6 py-3 text-gray-500 shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
+                                        className="rounded-md px-4 py-3 text-gray-500 shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
                                         onClick={(event) => {
                                           event.stopPropagation();
                                           router.push(`/write?id=${row.id}`);
@@ -195,7 +199,7 @@ export default function StickyHeadTable() {
                                         &nbsp; 수정
                                       </button>
                                       <button
-                                        className="rounded-md bg-gray-400 px-6 py-3 text-white shadow-md transition-all duration-200 hover:bg-gray-400 active:bg-gray-400 active:bg-opacity-80"
+                                        className="rounded-md bg-gray-400 px-4 py-3 text-white shadow-md transition-all duration-200 hover:bg-gray-400 active:bg-gray-400 active:bg-opacity-80"
                                         onClick={(event) => {
                                           handleDelete(event, row.id);
                                         }}

@@ -182,7 +182,7 @@ export default function StickyHeadTable() {
                                   {column.id === "actions" ? (
                                     <div className="flex justify-center gap-4">
                                       <button
-                                        className="rounded-md px-6 py-3 text-black text-gray-500 shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
+                                        className="rounded-md px-6 py-3 text-gray-500 shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
                                         onClick={(event) => {
                                           event.stopPropagation();
                                           router.push(`/write?id=${row.id}`);

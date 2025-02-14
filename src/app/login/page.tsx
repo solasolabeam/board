@@ -4,7 +4,6 @@ import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 import useUserStore from "../store";
-import Header from "../(components)/Header";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -65,7 +64,6 @@ export default function LoginPage() {
   return (
     <div className="mx-5">
       <div className="mt-10" />
-      <Header />
       <div className="mt-48" />
       <div className="flex items-center justify-center">
         <div className="w-full">

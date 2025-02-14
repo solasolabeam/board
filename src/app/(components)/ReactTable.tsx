@@ -10,6 +10,9 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { Box, CircularProgress } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+
 import { useRouter } from "next/navigation";
 
 interface Column {
@@ -31,7 +34,7 @@ const columns: readonly Column[] = [
     align: "center",
     format: (value: string) => value.split("T")[0],
   },
-  { id: "actions", label: "", align: "center", minWidth: 200 },
+  { id: "actions", label: "", align: "center", minWidth: 300 },
 ];
 
 interface Row {
@@ -112,10 +115,10 @@ export default function StickyHeadTable() {
           <CircularProgress />
         </Box>
       ) : (
-        <>
+        <div className="mx-5">
           <div className="mb-4 flex justify-end">
             <button
-              className="rounded-md bg-gray-500 px-6 py-3 text-white"
+              className="rounded-md bg-gray-500 px-6 py-3 text-white shadow-md transition-all duration-200 hover:bg-gray-600 active:bg-gray-400 active:bg-opacity-80"
               onClick={() => router.push("/write")}
             >
               글 작성
@@ -179,21 +182,26 @@ export default function StickyHeadTable() {
                                   {column.id === "actions" ? (
                                     <div className="flex justify-center gap-4">
                                       <button
-                                        className="rounded-md px-6 py-3 ring-1 ring-gray-500"
+                                        className="rounded-md px-6 py-3 text-black text-gray-500 shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
                                         onClick={(event) => {
                                           event.stopPropagation();
                                           router.push(`/write?id=${row.id}`);
                                         }}
                                       >
-                                        수정
+                                        <FontAwesomeIcon
+                                          icon={faPenToSquare}
+                                          color="#6b7280"
+                                        />
+                                        &nbsp; 수정
                                       </button>
                                       <button
-                                        className="rounded-md px-6 py-3 ring-1 ring-gray-500"
+                                        className="rounded-md bg-gray-400 px-6 py-3 text-white shadow-md transition-all duration-200 hover:bg-gray-400 active:bg-gray-400 active:bg-opacity-80"
                                         onClick={(event) => {
                                           handleDelete(event, row.id);
                                         }}
                                       >
-                                        삭제
+                                        <FontAwesomeIcon icon={faTrash} />
+                                        &nbsp; 삭제
                                       </button>
                                     </div>
                                   ) : column.format ? (
@@ -221,7 +229,7 @@ export default function StickyHeadTable() {
               labelRowsPerPage="페이지당 행 수"
             />
           </Paper>
-        </>
+        </div>
       )}
     </>
   );

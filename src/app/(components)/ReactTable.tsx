@@ -9,7 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { Box, Button, CircularProgress } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 interface Column {
@@ -31,7 +31,7 @@ const columns: readonly Column[] = [
     align: "center",
     format: (value: string) => value.split("T")[0],
   },
-  { id: "actions", label: "", align: "center", minWidth: 100 },
+  { id: "actions", label: "", align: "center", minWidth: 200 },
 ];
 
 interface Row {
@@ -59,7 +59,7 @@ export default function StickyHeadTable() {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("accessToken"),
             },
-          }
+          },
         );
 
         if (!response.ok) {
@@ -83,7 +83,7 @@ export default function StickyHeadTable() {
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -91,7 +91,7 @@ export default function StickyHeadTable() {
 
   const handleDelete = async (
     event: React.MouseEvent<HTMLButtonElement>,
-    id: number
+    id: number,
   ) => {
     event.stopPropagation();
     await fetch(`https://front-mission.bigs.or.kr/boards/${id}`, {
@@ -112,99 +112,114 @@ export default function StickyHeadTable() {
           <CircularProgress />
         </Box>
       ) : (
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
-          <TableContainer sx={{ maxHeight: 440 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      align={column.align}
-                      style={{ minWidth: column.minWidth }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.length > 0 &&
-                  rows
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, index) => {
-                      return (
-                        <TableRow
-                          hover
-                          role="checkbox"
-                          tabIndex={-1}
-                          key={row.id}
-                        >
-                          {columns.map((column) => {
-                            let value;
+        <>
+          <div className="mb-4 flex justify-end">
+            <button
+              className="rounded-md bg-gray-500 px-6 py-3 text-white"
+              onClick={() => router.push("/write")}
+            >
+              글 작성
+            </button>
+          </div>
+          <Paper sx={{ width: "100%", overflow: "hidden" }}>
+            <TableContainer sx={{ maxHeight: 440 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{
+                          minWidth: column.minWidth,
+                          backgroundColor: "#6b7280",
+                          color: "#ffffff",
+                        }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.length > 0 &&
+                    rows
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage,
+                      )
+                      .map((row, index) => {
+                        return (
+                          <TableRow
+                            hover
+                            role="checkbox"
+                            tabIndex={-1}
+                            key={row.id}
+                          >
+                            {columns.map((column) => {
+                              let value;
 
-                            if (column.id === "no") {
-                              value = page * rowsPerPage + index + 1; // 행번호 계산
-                            } else {
-                              value = row[column.id as keyof typeof row] || "";
-                            }
-                            return (
-                              <TableCell
-                                key={column.id}
-                                align={column.align}
-                                onClick={() => router.push(`/detail/${row.id}`)}
-                                className="cursor-pointer"
-                              >
-                                {column.id === "actions" ? (
-                                  <div className="flex justify-center">
-                                    <Button
-                                      variant="contained"
-                                      color="info"
-                                      size="small"
-                                      onClick={(event) => {
-                                        event.stopPropagation();
-                                        router.push(`/write?id=${row.id}`);
-                                      }}
-                                    >
-                                      수정
-                                    </Button>
-                                    <Button
-                                      variant="contained"
-                                      color="warning"
-                                      size="small"
-                                      sx={{ ml: 1 }} // 왼쪽 마진 추가
-                                      onClick={(event) => {
-                                        handleDelete(event, row.id);
-                                      }}
-                                    >
-                                      삭제
-                                    </Button>
-                                  </div>
-                                ) : column.format ? (
-                                  column.format(String(value))
-                                ) : (
-                                  value
-                                )}
-                              </TableCell>
-                            );
-                          })}
-                        </TableRow>
-                      );
-                    })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={rows?.length || 0}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage="페이지당 행 수"
-          />
-        </Paper>
+                              if (column.id === "no") {
+                                value = page * rowsPerPage + index + 1; // 행번호 계산
+                              } else {
+                                value =
+                                  row[column.id as keyof typeof row] || "";
+                              }
+                              return (
+                                <TableCell
+                                  key={column.id}
+                                  align={column.align}
+                                  onClick={() =>
+                                    router.push(`/detail/${row.id}`)
+                                  }
+                                  className="cursor-pointer"
+                                >
+                                  {column.id === "actions" ? (
+                                    <div className="flex justify-center gap-4">
+                                      <button
+                                        className="rounded-md px-6 py-3 ring-1 ring-gray-500"
+                                        onClick={(event) => {
+                                          event.stopPropagation();
+                                          router.push(`/write?id=${row.id}`);
+                                        }}
+                                      >
+                                        수정
+                                      </button>
+                                      <button
+                                        className="rounded-md px-6 py-3 ring-1 ring-gray-500"
+                                        onClick={(event) => {
+                                          handleDelete(event, row.id);
+                                        }}
+                                      >
+                                        삭제
+                                      </button>
+                                    </div>
+                                  ) : column.format ? (
+                                    column.format(String(value))
+                                  ) : (
+                                    value
+                                  )}
+                                </TableCell>
+                              );
+                            })}
+                          </TableRow>
+                        );
+                      })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={rows?.length || 0}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              labelRowsPerPage="페이지당 행 수"
+            />
+          </Paper>
+        </>
       )}
     </>
   );

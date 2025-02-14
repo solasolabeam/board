@@ -32,7 +32,7 @@ export default function DetailPage() {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("accessToken"),
             },
-          }
+          },
         );
         const data = await response.json();
         setCategory(data.boardCategory);
@@ -53,36 +53,40 @@ export default function DetailPage() {
 
       <div className="mt-16" />
 
-      <div className="grid grid-rows-[1fr_1fr_1fr_200px_1fr] grid-cols-[1fr_2fr] gap-6">
-        <div className="flex items-center justify-center text-lg font-bold ">
+      <div className="grid grid-cols-[1fr_3fr] grid-rows-[1fr_1fr_1fr_minmax(200px,auto)_1fr] gap-1">
+        <div className="flex items-center justify-center rounded-md bg-slate-500 text-sm font-bold text-white">
           카테고리
         </div>
-        <div className="flex items-center text-base ">{category}</div>
-        <div className="flex items-center justify-center text-lg font-bold ">
+        <div className="rounded-mdtext-base flex items-center bg-slate-100 pl-4 text-sm">
+          {category}
+        </div>
+        <div className="flex items-center justify-center rounded-md bg-slate-500 text-sm font-bold text-white">
           작성일
         </div>
-        <div className="flex items-center text-base ">
+        <div className="flex items-center bg-slate-100 pl-4 text-sm">
           {createdAt &&
             new Date(createdAt).toISOString().slice(0, 16).replace("T", " ")}
         </div>
-        <div className="flex items-center justify-center text-lg font-bold ">
+        <div className="flex items-center justify-center rounded-md bg-slate-500 text-sm font-bold text-white">
           제목
         </div>
-        <div className="flex items-center text-base ">{title}</div>
-        <div className="flex items-center justify-center text-lg font-bold ">
+        <div className="flex items-center bg-slate-100 pl-4 text-sm">
+          {title}
+        </div>
+        <div className="flex items-center justify-center rounded-md bg-slate-500 text-sm font-bold text-white">
           내용
         </div>
-        <div className="text-base">{content}</div>
-        <div className="flex items-center justify-center text-lg font-bold ">
+        <div className="bg-slate-100 p-4 text-sm">{content}</div>
+        <div className="flex items-center justify-center rounded-md bg-slate-500 text-sm font-bold text-white">
           첨부파일
         </div>
-        <div className="flex items-center text-base">
+        <div className="flex items-center bg-slate-100 p-4 text-sm">
           {imageUrl && (
             <a
               href={`https://front-mission.bigs.or.kr${imageUrl}`}
               target="_blank"
             >
-              <p className="text-blue-500 cursor-pointer">
+              <p className="cursor-pointer hover:text-blue-500">
                 {imageUrl.replace("/media/images/", "")}
               </p>
             </a>
@@ -94,19 +98,19 @@ export default function DetailPage() {
 
       <div className="flex justify-end gap-2">
         <button
-          className="bg-gray-500 text-white py-3 px-6 rounded-md"
+          className="rounded-md bg-gray-500 px-6 py-3 text-white"
           onClick={() => router.push("/")}
         >
           목록
         </button>
         <button
-          className="bg-gray-500 text-white py-3 px-6 rounded-md"
+          className="rounded-md bg-gray-500 px-6 py-3 text-white"
           onClick={() => router.push(`/write?id=${params.id}`)}
         >
           수정
         </button>
         <button
-          className="bg-gray-500 text-white py-3 px-6 rounded-md"
+          className="rounded-md bg-gray-500 px-6 py-3 text-white"
           onClick={handleDelete}
         >
           삭제

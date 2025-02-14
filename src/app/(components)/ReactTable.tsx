@@ -1,5 +1,7 @@
 "use client";
-
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+config.autoAddCss = false;
 import * as React from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -69,9 +71,10 @@ export default function StickyHeadTable() {
           },
         );
 
-        if (!response.ok) {
+        if (response.status == 401) {
           // 응답 코드가 200번대가 아니면 예외 처리
-          throw new Error(`HTTP error! status: ${response.status}`);
+          alert("no");
+          router.push("/login");
         }
 
         const data = await response.json();
@@ -125,7 +128,8 @@ export default function StickyHeadTable() {
               className="rounded-md px-4 py-3 text-gray-500 shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
               onClick={() => router.push("/write")}
             >
-              <FontAwesomeIcon icon={faPlus} /> &nbsp; 글 작성
+              <FontAwesomeIcon icon={faPlus} />
+              &nbsp; 글 작성
             </button>
           </div>
           <Paper sx={{ width: "100%", overflow: "hidden" }}>

@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 
 export default function Header() {
   const router = useRouter();
-  const user = useUserStore((state) => state.user);
+  // const user = useUserStore((state) => state.user);
 
   const checkTokenExpiration = (token: string) => {
     try {
@@ -79,7 +79,7 @@ export default function Header() {
 
     const currentTime = Date.now();
     const timeUntilExpiration = expirationTime - currentTime;
-    const refreshTime = timeUntilExpiration - 30000; // 만료 30초 전에 리프레시 요청
+    const refreshTime = timeUntilExpiration - 120000; // 만료 2분 전에 리프레시 요청
 
     if (timeUntilExpiration <= 0) {
       console.log("토큰 만료됨, 로그아웃 처리");
@@ -89,11 +89,11 @@ export default function Header() {
       const timer = setTimeout(refreshAccessToken, refreshTime);
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div>
-      {user && (
+      {/* {user && (
         <div className="flex justify-end gap-5">
           <p className="text-sm">
             <span className="font-bold">{user.username}</span> 님
@@ -102,7 +102,12 @@ export default function Header() {
             로그아웃
           </p>
         </div>
-      )}
+      )} */}
+      <div className="flex justify-end gap-5">
+        <p className="text-sm" onClick={handleLogout}>
+          로그아웃
+        </p>
+      </div>
     </div>
   );
 }

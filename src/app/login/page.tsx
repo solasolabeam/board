@@ -54,6 +54,7 @@ export default function LoginPage() {
           username: values.username,
         });
         localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
         router.push("/");
       } else {
         console.error("Login failed", data);

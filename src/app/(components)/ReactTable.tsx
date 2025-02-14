@@ -172,7 +172,9 @@ export default function StickyHeadTable() {
                                   onClick={() =>
                                     router.push(`/detail/${row.id}`)
                                   }
-                                  className="cursor-pointer"
+                                  className={`cursor-pointer ${
+                                    column.id === "no" ? "font-bold" : ""
+                                  }`}
                                 >
                                   {column.id === "actions" ? (
                                     <div className="flex justify-center gap-4">

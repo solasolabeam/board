@@ -52,8 +52,9 @@ export default function LoginPage() {
         setUser({
           username: values.username,
         });
-        localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken);
+        document.cookie = `accessToken=${data.accessToken}; path=/;`;
+        document.cookie = `refreshToken=${data.refreshToken}; path=/;`;
+
         router.push("/");
       } else {
         console.error("Login failed", data);

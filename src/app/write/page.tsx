@@ -20,6 +20,7 @@ import {
   faList,
   faPenToSquare,
 } from "@fortawesome/free-solid-svg-icons";
+import Cookies from "js-cookie";
 
 export default function WritePage() {
   const [file, setFile] = useState<File | null>(null);
@@ -79,7 +80,7 @@ export default function WritePage() {
         {
           method: searchParams?.get("id") ? "PATCH" : "POST",
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+            Authorization: "Bearer " + Cookies.get("accessToken"),
           },
           body: formData,
         },
@@ -96,7 +97,7 @@ export default function WritePage() {
         "https://front-mission.bigs.or.kr/boards/categories",
         {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+            Authorization: "Bearer " + Cookies.get("accessToken"),
           },
         },
       );
@@ -112,7 +113,7 @@ export default function WritePage() {
           }`,
           {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("accessToken"),
+              Authorization: "Bearer " + Cookies.get("accessToken"),
             },
           },
         );

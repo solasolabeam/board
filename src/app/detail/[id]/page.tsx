@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, CircularProgress } from "@mui/material";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 export default function DetailPage() {
   const params = useParams();
@@ -24,7 +25,7 @@ export default function DetailPage() {
     await fetch(`https://front-mission.bigs.or.kr/boards/${params.id}`, {
       method: "DELETE",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        Authorization: "Bearer " + Cookies.get("accessToken"),
       },
     });
 
@@ -39,10 +40,16 @@ export default function DetailPage() {
           `https://front-mission.bigs.or.kr/boards/${params.id}`,
           {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("accessToken"),
+              Authorization: "Bearer " + Cookies.get("accessToken"),
             },
           },
         );
+
+        // if (response.status === 401) {
+        //   router.push("/login");
+        //   return;
+        // }
+
         const data = await response.json();
         setCategory(data.boardCategory);
         setContent(data.content);
@@ -56,6 +63,7 @@ export default function DetailPage() {
     };
     fetchData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div className="mx-5">
       <div className="mt-10" />

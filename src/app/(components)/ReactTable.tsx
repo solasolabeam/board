@@ -18,7 +18,7 @@ import {
   faPlus,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 interface Column {
@@ -66,7 +66,7 @@ export default function StickyHeadTable() {
           "https://front-mission.bigs.or.kr/boards?page=0&size=10",
           {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("accessToken"),
+              Authorization: "Bearer " + Cookies.get("accessToken"),
             },
           },
         );
@@ -101,7 +101,7 @@ export default function StickyHeadTable() {
     await fetch(`https://front-mission.bigs.or.kr/boards/${id}`, {
       method: "DELETE",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        Authorization: "Bearer " + Cookies.get("accessToken"),
       },
     });
 

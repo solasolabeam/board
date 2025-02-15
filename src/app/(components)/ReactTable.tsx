@@ -21,6 +21,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
 
 interface Column {
   id: "no" | "title" | "category" | "createdAt" | "actions";
@@ -113,6 +114,7 @@ export default function StickyHeadTable() {
 
     const newRows = rows.filter((row) => row.id !== id);
     setRows(newRows);
+    toast.success("삭제되었습니다!");
   };
 
   return (
@@ -261,6 +263,19 @@ export default function StickyHeadTable() {
               onChange={handleChangePage}
             />
           </Stack>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            // transition={Bounce}
+          />
         </div>
       )}
     </>

@@ -13,7 +13,7 @@ export default function Header() {
   };
 
   return (
-    <div>
+    <div className="mx-5">
       <div className="flex justify-end gap-5">
         <p className="cursor-pointer text-sm" onClick={handleLogout}>
           로그아웃

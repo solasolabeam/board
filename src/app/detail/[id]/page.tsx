@@ -65,7 +65,7 @@ export default function DetailPage() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="mx-5">
+    <div className="mx-auto max-w-[1600px] px-5 sm:px-16 lg:px-28">
       <div className="mt-10" />
       <Header />
 
@@ -76,37 +76,37 @@ export default function DetailPage() {
         </Box>
       ) : (
         <>
-          <div className="grid grid-cols-[1fr_3fr] grid-rows-[minmax(70px,auto)_minmax(70px,auto)_minmax(70px,auto)_minmax(200px,auto)_minmax(70px,auto)] gap-1">
-            <div className="flex items-center justify-center rounded-md bg-slate-500 text-sm font-bold text-white">
+          <div className="grid grid-cols-[1fr_3fr] grid-rows-[minmax(50px,auto)_minmax(50px,auto)_minmax(50px,auto)_minmax(400px,auto)_minmax(50px,auto)] gap-1 lg:grid-cols-[1fr_5fr] 2xl:grid-cols-[1fr_7fr]">
+            <div className="flex items-center justify-center rounded-md bg-gray-700 text-sm font-bold text-white">
               카테고리
             </div>
-            <div className="rounded-mdtext-base flex items-center bg-slate-100 pl-4 text-sm">
+            <div className="rounded-mdtext-base flex items-center bg-gray-100 pl-4 text-sm">
               {category}
             </div>
-            <div className="flex items-center justify-center rounded-md bg-slate-500 text-sm font-bold text-white">
+            <div className="flex items-center justify-center rounded-md bg-gray-700 text-sm font-bold text-white">
               작성일
             </div>
-            <div className="flex items-center bg-slate-100 pl-4 text-sm">
+            <div className="flex items-center bg-gray-100 pl-4 text-sm">
               {createdAt &&
                 new Date(createdAt)
                   .toISOString()
                   .slice(0, 16)
                   .replace("T", " ")}
             </div>
-            <div className="flex items-center justify-center rounded-md bg-slate-500 text-sm font-bold text-white">
+            <div className="flex items-center justify-center rounded-md bg-gray-700 text-sm font-bold text-white">
               제목
             </div>
-            <div className="flex items-center bg-slate-100 pl-4 text-sm">
+            <div className="flex items-center bg-gray-100 pl-4 text-sm">
               {title}
             </div>
-            <div className="flex items-center justify-center rounded-md bg-slate-500 text-sm font-bold text-white">
+            <div className="flex items-center justify-center rounded-md bg-gray-700 text-sm font-bold text-white">
               내용
             </div>
-            <div className="bg-slate-100 p-4 text-sm">{content}</div>
-            <div className="flex items-center justify-center rounded-md bg-slate-500 text-sm font-bold text-white">
+            <div className="bg-gray-100 p-4 text-sm">{content}</div>
+            <div className="flex items-center justify-center rounded-md bg-gray-700 text-sm font-bold text-white">
               첨부파일
             </div>
-            <div className="flex items-center bg-slate-100 p-4 text-sm">
+            <div className="flex items-center bg-gray-100 p-4 text-sm">
               {imageUrl && (
                 <a
                   href={`https://front-mission.bigs.or.kr${imageUrl}`}

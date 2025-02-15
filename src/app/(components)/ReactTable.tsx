@@ -52,7 +52,7 @@ interface Row {
 }
 
 export default function StickyHeadTable() {
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(0);
   // const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const rowsPerPage = 10;

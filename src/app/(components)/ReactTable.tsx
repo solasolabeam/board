@@ -9,9 +9,9 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
+// import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Pagination, Stack } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFile,
@@ -53,7 +53,9 @@ interface Row {
 
 export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [totalPages, setTotalPages] = React.useState(0);
+  // const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const rowsPerPage = 10;
   const [rows, setRows] = React.useState<Row[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [totalElements, setTotalElements] = React.useState(0);
@@ -65,7 +67,7 @@ export default function StickyHeadTable() {
       try {
         setLoading(true);
         const response = await fetch(
-          "https://front-mission.bigs.or.kr/boards?page=0&size=10",
+          `https://front-mission.bigs.or.kr/boards?page=${page - 1}&size=10`,
           {
             headers: {
               Authorization: "Bearer " + Cookies.get("accessToken"),
@@ -76,6 +78,7 @@ export default function StickyHeadTable() {
         const data = await response.json();
         setRows(data.content);
         setTotalElements(data.totalElements);
+        setTotalPages(data.totalPages);
         setLoading(false);
       } catch (error) {
         console.log("Error:", error);
@@ -83,18 +86,18 @@ export default function StickyHeadTable() {
     };
 
     fetchData();
-  }, []);
+  }, [page]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+  // const handleChangeRowsPerPage = (
+  //   event: React.ChangeEvent<HTMLInputElement>,
+  // ) => {
+  //   setRowsPerPage(+event.target.value);
+  //   setPage(0);
+  // };
 
   const handleDelete = async (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -123,7 +126,7 @@ export default function StickyHeadTable() {
           <div className="mb-4 flex items-center justify-between">
             <p className="px-4 py-3 text-gray-500">
               <FontAwesomeIcon icon={faFile} /> &nbsp; 총{" "}
-              <span className="font-bold">{totalElements}</span>건
+              <span className="font-bold text-gray-600">{totalElements}</span>건
             </p>
             <button
               className="rounded-md px-4 py-3 text-gray-500 shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
@@ -165,10 +168,10 @@ export default function StickyHeadTable() {
                 <TableBody>
                   {rows.length > 0 &&
                     rows
-                      .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage,
-                      )
+                      // .slice(
+                      //   page * rowsPerPage,
+                      //   page * rowsPerPage + rowsPerPage,
+                      // )
                       .map((row, index) => {
                         return (
                           <TableRow
@@ -181,7 +184,7 @@ export default function StickyHeadTable() {
                               let value;
 
                               if (column.id === "no") {
-                                value = page * rowsPerPage + index + 1; // 행번호 계산
+                                value = (page - 1) * rowsPerPage + index + 1; // 행번호 계산
                               } else {
                                 value =
                                   row[column.id as keyof typeof row] || "";
@@ -246,17 +249,19 @@ export default function StickyHeadTable() {
                 </TableBody>
               </Table>
             </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component="div"
-              count={rows?.length || 0}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              labelRowsPerPage="페이지당 행 수"
-            />
           </Paper>
+          <Stack
+            spacing={2}
+            sx={{ mt: 5, flexDirection: "row", justifyContent: "center" }}
+          >
+            <Pagination
+              count={totalPages}
+              variant="outlined"
+              shape="rounded"
+              page={page}
+              onChange={handleChangePage}
+            />
+          </Stack>
         </div>
       )}
     </>

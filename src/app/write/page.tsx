@@ -21,6 +21,7 @@ import {
   faPenToSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import Cookies from "js-cookie";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function WritePage() {
   const [file, setFile] = useState<File | null>(null);
@@ -85,7 +86,12 @@ export default function WritePage() {
           body: formData,
         },
       );
-      router.push("/");
+      toast.success(
+        searchParams?.get("id") ? "수정되었습니다!" : "저장되었습니다!",
+      );
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
     } catch (error) {
       console.error("Upload Error:", error);
     }
@@ -210,6 +216,19 @@ export default function WritePage() {
           )}
         </button>
       </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        // transition={Bounce}
+      />
     </div>
   );
 }

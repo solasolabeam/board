@@ -14,6 +14,7 @@ import TableRow from "@mui/material/TableRow";
 import { Box, CircularProgress } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faFile,
   faPenToSquare,
   faPlus,
   faTrash,
@@ -55,6 +56,7 @@ export default function StickyHeadTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rows, setRows] = React.useState<Row[]>([]);
   const [loading, setLoading] = React.useState(false);
+  const [totalElements, setTotalElements] = React.useState(0);
 
   const router = useRouter();
 
@@ -73,6 +75,7 @@ export default function StickyHeadTable() {
 
         const data = await response.json();
         setRows(data.content);
+        setTotalElements(data.totalElements);
         setLoading(false);
       } catch (error) {
         console.log("Error:", error);
@@ -117,7 +120,11 @@ export default function StickyHeadTable() {
         </Box>
       ) : (
         <div className="mx-5">
-          <div className="mb-4 flex justify-end">
+          <div className="mb-4 flex items-center justify-between">
+            <p className="px-4 py-3 text-gray-500">
+              <FontAwesomeIcon icon={faFile} /> &nbsp; 총{" "}
+              <span className="font-bold">{totalElements}</span>건
+            </p>
             <button
               className="rounded-md px-4 py-3 text-gray-500 shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
               onClick={() => router.push("/write")}

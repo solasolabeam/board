@@ -4,7 +4,6 @@ import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 import useUserStore from "../store";
-import Header from "../(components)/Header";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -24,18 +23,17 @@ export default function LoginPage() {
         .matches(/[0-9]/, "비밀번호에 숫자가 최소 1개 이상 포함되어야 합니다.")
         .matches(
           /[a-zA-Z]/,
-          "비밀번호에 영문자가 최소 1개 이상 포함되어야 합니다."
+          "비밀번호에 영문자가 최소 1개 이상 포함되어야 합니다.",
         )
         .matches(
           /[!%*#?&]/,
-          "비밀번호에 특수문자(!%*#?&)가 최소 1개 이상 포함되어야 합니다."
+          "비밀번호에 특수문자(!%*#?&)가 최소 1개 이상 포함되어야 합니다.",
         )
         .required(
-          "비밀번호는 8자 이상, 숫자, 영문자, 특수문자(!%*#?&) 1개 이상의 조합이어야 합니다."
+          "비밀번호는 8자 이상, 숫자, 영문자, 특수문자(!%*#?&) 1개 이상의 조합이어야 합니다.",
         ),
     }),
     onSubmit: async (values) => {
-      console.log("폼 데이터:", values);
       console.log("login");
       const res = fetch("https://front-mission.bigs.or.kr/auth/signin", {
         method: "POST",
@@ -54,7 +52,9 @@ export default function LoginPage() {
         setUser({
           username: values.username,
         });
-        localStorage.setItem("accessToken", data.accessToken);
+        document.cookie = `accessToken=${data.accessToken}; path=/;`;
+        document.cookie = `refreshToken=${data.refreshToken}; path=/;`;
+
         router.push("/");
       } else {
         console.error("Login failed", data);
@@ -65,11 +65,10 @@ export default function LoginPage() {
   return (
     <div className="mx-5">
       <div className="mt-10" />
-      <Header />
       <div className="mt-48" />
-      <div className="flex justify-center items-center">
+      <div className="flex items-center justify-center">
         <div className="w-full">
-          <p className="text-4xl text-center">로그인</p>
+          <p className="text-center text-4xl">로그인</p>
           <div className="mt-10" />
           <form onSubmit={formik.handleSubmit} className="flex flex-col gap-5">
             <input
@@ -79,10 +78,10 @@ export default function LoginPage() {
               name="username"
               type="text"
               placeholder="이메일 형식"
-              className="border border-gray-300 p-3 rounded-md"
+              className="rounded-md border border-gray-300 p-3"
             />
             {formik.touched.username && formik.errors.username && (
-              <p className="text-red-500 text-xs">{formik.errors.username}</p>
+              <p className="text-xs text-red-500">{formik.errors.username}</p>
             )}
             <input
               value={formik.values.password}
@@ -94,20 +93,20 @@ export default function LoginPage() {
               // }}
               type="password"
               placeholder="비밀번호"
-              className="border border-gray-300 p-3 rounded-md"
+              className="rounded-md border border-gray-300 p-3"
             />
             {formik.touched.password && formik.errors.password && (
-              <p className="text-red-500 text-xs">{formik.errors.password}</p>
+              <p className="text-xs text-red-500">{formik.errors.password}</p>
             )}
             <button
-              className="bg-gray-500 text-white p-3 rounded-md"
+              className="rounded-md bg-gray-500 px-6 py-3 text-white shadow-md transition-all duration-200 hover:bg-gray-600 active:bg-gray-400 active:bg-opacity-80"
               // onClick={handleLogin}
               type="submit"
             >
               로그인
             </button>
             <button
-              className="border border-gray-400  text-black p-3 rounded-md"
+              className="rounded-md px-6 py-3 text-black shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
               onClick={() => router.push("/register")}
             >
               회원가입

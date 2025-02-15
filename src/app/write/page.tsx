@@ -1,4 +1,7 @@
 "use client";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+config.autoAddCss = false;
 import { useEffect, useState } from "react";
 import Header from "../(components)/Header";
 import {
@@ -11,11 +14,18 @@ import {
   TextField,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faImage,
+  faList,
+  faPenToSquare,
+} from "@fortawesome/free-solid-svg-icons";
+import Cookies from "js-cookie";
 
 export default function WritePage() {
   const [file, setFile] = useState<File | null>(null);
   const [categoryList, setCategoryList] = useState<{ [key: string]: string }>(
-    {}
+    {},
   );
   const [category, setCategory] = useState("NOTICE");
   const [title, setTitle] = useState("");
@@ -24,7 +34,7 @@ export default function WritePage() {
 
   // 클라이언트에서만 useSearchParams 사용하기 위해 useEffect로 감싸기
   const [searchParams, setSearchParams] = useState<URLSearchParams | null>(
-    null
+    null,
   );
 
   useEffect(() => {
@@ -59,7 +69,7 @@ export default function WritePage() {
 
     formData.append(
       "request",
-      new Blob([requestData], { type: "application/json" })
+      new Blob([requestData], { type: "application/json" }),
     );
 
     try {
@@ -70,10 +80,10 @@ export default function WritePage() {
         {
           method: searchParams?.get("id") ? "PATCH" : "POST",
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+            Authorization: "Bearer " + Cookies.get("accessToken"),
           },
           body: formData,
-        }
+        },
       );
       router.push("/");
     } catch (error) {
@@ -87,9 +97,9 @@ export default function WritePage() {
         "https://front-mission.bigs.or.kr/boards/categories",
         {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+            Authorization: "Bearer " + Cookies.get("accessToken"),
           },
-        }
+        },
       );
       const data = await response.json();
       setCategoryList(data);
@@ -103,9 +113,9 @@ export default function WritePage() {
           }`,
           {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("accessToken"),
+              Authorization: "Bearer " + Cookies.get("accessToken"),
             },
-          }
+          },
         );
         const data = await response.json();
         setCategory(data.boardCategory || "");
@@ -162,31 +172,43 @@ export default function WritePage() {
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
-        <div className="flex justify-end items-center gap-4">
+        <div className="flex items-center justify-end gap-4">
           {file && <p>첨부된 파일: {file.name}</p>}
-          <Button variant="contained" component="label">
-            파일 첨부
+          <Button
+            variant="contained"
+            component="label"
+            sx={{ px: "24px", py: "12px", backgroundColor: "#6b7280" }}
+          >
+            <FontAwesomeIcon icon={faImage} />
+            &nbsp; 파일 첨부
             <input type="file" hidden onChange={handleFileChange} />
           </Button>
         </div>
       </div>
-      <div className="mt-4 flex justify-end gap-4">
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
+      <div className="mt-20 flex justify-end gap-2">
+        <button
+          className="rounded-md bg-gray-400 px-4 py-3 text-white shadow-md transition-all duration-200 hover:bg-gray-400 active:bg-gray-400 active:bg-opacity-80"
           onClick={() => router.push("/")}
         >
-          목록
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
+          <FontAwesomeIcon icon={faList} />
+          &nbsp; 목록
+        </button>
+        <button
+          className="rounded-md px-4 py-3 text-gray-500 shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
           onClick={handleClick}
         >
-          {searchParams?.get("id") ? "수정" : "등록"}
-        </Button>
+          {searchParams?.get("id") ? (
+            <>
+              <FontAwesomeIcon icon={faPenToSquare} color="#6b7280" />
+              &nbsp; 수정
+            </>
+          ) : (
+            <>
+              <FontAwesomeIcon icon={faPenToSquare} color="#6b7280" />
+              &nbsp; 저장
+            </>
+          )}
+        </button>
       </div>
     </div>
   );

@@ -8,7 +8,9 @@ export async function middleware(req: NextRequest) {
 
   if (!refreshToken) {
     console.log("토큰 없음, 로그인 페이지로 이동");
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(
+      new URL("/login?error=token_expired", req.url),
+    );
   }
 
   if (accessToken) {

@@ -134,7 +134,7 @@ export default function WritePage() {
   }, [searchParams]); // searchParams가 변경될 때마다 실행
 
   return (
-    <div className="mx-5">
+    <div className="mx-auto max-w-[1600px] px-5 sm:px-16 lg:px-28">
       <div className="mt-10" />
       <Header />
       <div className="mt-16" />

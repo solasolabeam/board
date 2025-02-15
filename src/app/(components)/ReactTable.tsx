@@ -114,6 +114,7 @@ export default function StickyHeadTable() {
 
     const newRows = rows.filter((row) => row.id !== id);
     setRows(newRows);
+    setTotalElements((prev) => prev - 1);
     toast.success("삭제되었습니다!");
   };
 

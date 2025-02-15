@@ -127,7 +127,7 @@ export default function StickyHeadTable() {
             </button>
           </div>
           <Paper sx={{ width: "100%", overflow: "hidden" }}>
-            <TableContainer sx={{ maxHeight: 440 }}>
+            <TableContainer sx={{ maxHeight: 1100 }}>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>
@@ -139,6 +139,15 @@ export default function StickyHeadTable() {
                           minWidth: column.minWidth,
                           backgroundColor: "#6b7280",
                           color: "#ffffff",
+                        }}
+                        sx={{
+                          // 모바일에서 "actions" 컬럼을 숨기기
+                          "@media (max-width: 600px)": {
+                            display:
+                              column.id == "actions" || column.id == "category"
+                                ? "none"
+                                : "table-cell",
+                          },
                         }}
                       >
                         {column.label}
@@ -180,6 +189,16 @@ export default function StickyHeadTable() {
                                   className={`cursor-pointer ${
                                     column.id === "no" ? "font-bold" : ""
                                   }`}
+                                  sx={{
+                                    // 모바일에서 "actions" 컬럼을 숨기기
+                                    "@media (max-width: 600px)": {
+                                      display:
+                                        column.id == "actions" ||
+                                        column.id == "category"
+                                          ? "none"
+                                          : "table-cell",
+                                    },
+                                  }}
                                 >
                                   {column.id === "actions" ? (
                                     <div className="flex justify-center gap-4">

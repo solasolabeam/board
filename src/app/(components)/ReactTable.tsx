@@ -122,7 +122,7 @@ export default function StickyHeadTable() {
           <CircularProgress />
         </Box>
       ) : (
-        <div className="mx-5">
+        <div>
           <div className="mb-4 flex items-center justify-between">
             <p className="px-4 py-3 text-gray-500">
               <FontAwesomeIcon icon={faFile} /> &nbsp; 총{" "}
@@ -152,7 +152,7 @@ export default function StickyHeadTable() {
                         }}
                         sx={{
                           // 모바일에서 "actions" 컬럼을 숨기기
-                          "@media (max-width: 600px)": {
+                          "@media (max-width: 870px)": {
                             display:
                               column.id == "actions" || column.id == "category"
                                 ? "none"
@@ -200,8 +200,7 @@ export default function StickyHeadTable() {
                                     column.id === "no" ? "font-bold" : ""
                                   }`}
                                   sx={{
-                                    // 모바일에서 "actions" 컬럼을 숨기기
-                                    "@media (max-width: 600px)": {
+                                    "@media (max-width: 870px)": {
                                       display:
                                         column.id == "actions" ||
                                         column.id == "category"

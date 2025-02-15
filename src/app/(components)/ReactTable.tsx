@@ -127,7 +127,7 @@ export default function StickyHeadTable() {
       ) : (
         <div>
           <div className="mb-4 flex items-center justify-between">
-            <p className="px-4 py-3 text-gray-500">
+            <p className="px-4 py-3 text-gray-500 md:text-base lg:text-lg">
               <FontAwesomeIcon icon={faFile} /> &nbsp; 총{" "}
               <span className="font-bold text-gray-600">{totalElements}</span>건
             </p>

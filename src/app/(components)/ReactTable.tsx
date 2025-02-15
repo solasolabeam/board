@@ -71,12 +71,6 @@ export default function StickyHeadTable() {
           },
         );
 
-        if (response.status == 401) {
-          // 응답 코드가 200번대가 아니면 예외 처리
-          alert("no");
-          router.push("/login");
-        }
-
         const data = await response.json();
         setRows(data.content);
         setLoading(false);

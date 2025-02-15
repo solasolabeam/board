@@ -63,7 +63,7 @@ export default function LoginPage() {
   });
 
   return (
-    <div className="mx-5">
+    <div className="mx-auto max-w-5xl px-5 sm:px-28 lg:px-52">
       <div className="mt-10" />
       <div className="mt-48" />
       <div className="flex items-center justify-center">
@@ -99,7 +99,7 @@ export default function LoginPage() {
               <p className="text-xs text-red-500">{formik.errors.password}</p>
             )}
             <button
-              className="rounded-md bg-gray-500 px-6 py-3 text-white shadow-md transition-all duration-200 hover:bg-gray-600 active:bg-gray-400 active:bg-opacity-80"
+              className="rounded-md bg-gray-600 px-6 py-3 text-white shadow-md transition-all duration-200 hover:bg-gray-600 active:bg-gray-400 active:bg-opacity-80"
               // onClick={handleLogin}
               type="submit"
             >

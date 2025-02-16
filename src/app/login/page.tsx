@@ -78,6 +78,8 @@ function LoginForm() {
     if (error === "token_expired") {
       console.log("error", error);
       toast.error("로그인이 필요합니다.");
+    } else if (error === "unauthorized") {
+      toast.error("세션이 만료되었습니다. 다시 로그인해주세요.");
     }
   }, [error]);
 

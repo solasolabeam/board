@@ -69,6 +69,8 @@ function LoginForm() {
         document.cookie = `refreshToken=${data.refreshToken}; path=/;`;
 
         router.push("/");
+      } else if ((await res).status == 400) {
+        toast.error(data.message);
       } else {
         console.error("Login failed", data);
       }

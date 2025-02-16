@@ -64,7 +64,10 @@ export default function RegisterPage() {
       });
 
       if (res.ok) {
-        router.push("/login");
+        toast.success("회원가입이 성공했습니다!");
+        setTimeout(() => {
+          router.push("/login");
+        }, 1000);
       } else if (res.status == 400) {
         const data = await res.json();
         if (data.username) {

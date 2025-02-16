@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 import Header from "../(components)/Header";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -63,8 +64,16 @@ export default function RegisterPage() {
         }),
       });
 
+      const data = await res.json();
+
       if (res.ok) {
         router.push("/login");
+      } else if (res.status == 400) {
+        if (data.username) {
+          toast.error(data.username[0]);
+        } else {
+          toast.error(data.confirmPassword[0]);
+        }
       }
     },
   });
@@ -136,15 +145,28 @@ export default function RegisterPage() {
             >
               가입하기
             </button>
-            <button
-              className="rounded-md px-6 py-3 text-black shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
-              onClick={() => router.push("/login")}
-            >
-              로그인창으로
-            </button>
           </form>
+          <button
+            className="mt-5 w-full rounded-md px-6 py-3 text-black shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
+            onClick={() => router.push("/login")}
+          >
+            로그인창으로
+          </button>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        // transition={Bounce}
+      />
     </div>
   );
 }

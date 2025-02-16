@@ -2,12 +2,20 @@
 
 import { useFormik } from "formik";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 // import useUserStore from "../store";
 
 export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const router = useRouter();
   // const setUser = useUserStore((state) => state.setUser);
   const searchParams = useSearchParams();
@@ -70,6 +78,8 @@ export default function LoginPage() {
     if (error === "token_expired") {
       console.log("error", error);
       toast.error("로그인이 필요합니다.");
+    } else if (error === "unauthorized") {
+      toast.error("세션이 만료되었습니다. 다시 로그인해주세요.");
     }
   }, [error]);
 
@@ -116,17 +126,17 @@ export default function LoginPage() {
             >
               로그인
             </button>
-            <button
-              className="rounded-md px-6 py-3 text-black shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
-              onClick={() => router.push("/register")}
-            >
-              회원가입
-            </button>
           </form>
+          <button
+            className="mt-5 w-full rounded-md px-6 py-3 text-black shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
+            onClick={() => router.push("/register")}
+          >
+            회원가입
+          </button>
         </div>
       </div>
       <ToastContainer
-        position="bottom-right"
+        position="top-right"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}

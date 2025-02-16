@@ -10,6 +10,7 @@ import { Box, CircularProgress } from "@mui/material";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function DetailPage() {
   const params = useParams();
@@ -29,7 +30,10 @@ export default function DetailPage() {
       },
     });
 
-    router.push("/");
+    toast.success("삭제되었습니다!");
+    setTimeout(() => {
+      router.push("/");
+    }, 1000);
   };
 
   useEffect(() => {
@@ -45,10 +49,10 @@ export default function DetailPage() {
           },
         );
 
-        // if (response.status === 401) {
-        //   router.push("/login");
-        //   return;
-        // }
+        if (response.status == 401) {
+          router.push("/login?error=unauthorized");
+          return;
+        }
 
         const data = await response.json();
         setCategory(data.boardCategory);
@@ -65,7 +69,7 @@ export default function DetailPage() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="mx-auto max-w-[1600px] px-5 sm:px-16 lg:px-28">
+    <div className="mx-auto max-w-[1600px] px-5 pb-16 sm:px-16 lg:px-28">
       <div className="mt-10" />
       <Header />
 
@@ -146,6 +150,19 @@ export default function DetailPage() {
           </div>
         </>
       )}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        // transition={Bounce}
+      />
     </div>
   );
 }

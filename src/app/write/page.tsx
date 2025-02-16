@@ -74,7 +74,7 @@ export default function WritePage() {
     );
 
     try {
-      await fetch(
+      const response = await fetch(
         `https://front-mission.bigs.or.kr/boards${
           searchParams?.get("id") ? "/" + searchParams.get("id") : ""
         }`,
@@ -86,6 +86,12 @@ export default function WritePage() {
           body: formData,
         },
       );
+
+      if (response.status == 401) {
+        router.push("/login?error=unauthorized");
+        return;
+      }
+
       toast.success(
         searchParams?.get("id") ? "수정되었습니다!" : "저장되었습니다!",
       );
@@ -107,6 +113,12 @@ export default function WritePage() {
           },
         },
       );
+
+      if (response.status == 401) {
+        router.push("/login?error=unauthorized");
+        return;
+      }
+
       const data = await response.json();
       setCategoryList(data);
     };
@@ -123,6 +135,12 @@ export default function WritePage() {
             },
           },
         );
+
+        if (response.status == 401) {
+          router.push("/login?error=unauthorized");
+          return;
+        }
+
         const data = await response.json();
         setCategory(data.boardCategory || "");
         setContent(data.content || "");
@@ -137,10 +155,10 @@ export default function WritePage() {
     if (searchParams?.get("id")) {
       searchData();
     }
-  }, [searchParams]); // searchParams가 변경될 때마다 실행
+  }, [searchParams, router]); // searchParams가 변경될 때마다 실행
 
   return (
-    <div className="mx-auto max-w-[1600px] px-5 sm:px-16 lg:px-28">
+    <div className="mx-auto max-w-[1600px] px-5 pb-16 sm:px-16 lg:px-28">
       <div className="mt-10" />
       <Header />
       <div className="mt-16" />
@@ -217,7 +235,7 @@ export default function WritePage() {
         </button>
       </div>
       <ToastContainer
-        position="bottom-right"
+        position="top-right"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}

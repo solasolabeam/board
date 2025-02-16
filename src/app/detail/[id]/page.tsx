@@ -32,7 +32,7 @@ export default function DetailPage() {
 
     toast.success("삭제되었습니다!");
     setTimeout(() => {
-      router.push("/");
+      router.push("/list");
     }, 1000);
   };
 
@@ -128,7 +128,7 @@ export default function DetailPage() {
           <div className="flex justify-end gap-2">
             <button
               className="rounded-md bg-gray-400 px-4 py-3 text-white shadow-md transition-all duration-200 hover:bg-gray-400 active:bg-gray-400 active:bg-opacity-80"
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/list")}
             >
               <FontAwesomeIcon icon={faList} />
               &nbsp; 목록

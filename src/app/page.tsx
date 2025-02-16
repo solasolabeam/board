@@ -1,18 +1,14 @@
-"use client";
-import Header from "./(components)/Header";
-import StickyHeadTable from "./(components)/ReactTable";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  return (
-    <div className="mx-auto max-w-[1600px] px-5 pb-16 sm:px-16 lg:px-28">
-      <div className="mt-10" />
-      <Header />
-      <div className="mt-16" />
-      <div>
-        <p className="mb-16 text-center text-3xl">게시판</p>
-
-        <StickyHeadTable />
-      </div>
-    </div>
-  );
+export default async function Home() {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("accessToken")?.value;
+  const refreshToken = cookieStore.get("refreshToken")?.value;
+  if (accessToken && refreshToken) {
+    redirect("/list");
+  } else {
+    redirect("/login");
+  }
+  return null;
 }

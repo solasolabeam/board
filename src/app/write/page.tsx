@@ -217,7 +217,7 @@ export default function WritePage() {
         </button>
       </div>
       <ToastContainer
-        position="bottom-right"
+        position="top-right"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}

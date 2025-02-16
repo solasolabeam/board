@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ClientSideRefresh from "./(components)/ClientSideRefresh";
 
 export const metadata: Metadata = {
   title: "게시판 웹",
@@ -13,6 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <ClientSideRefresh />
       <body>{children}</body>
     </html>
   );

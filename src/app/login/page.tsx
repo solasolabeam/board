@@ -116,13 +116,13 @@ export default function LoginPage() {
             >
               로그인
             </button>
-            <button
-              className="rounded-md px-6 py-3 text-black shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
-              onClick={() => router.push("/register")}
-            >
-              회원가입
-            </button>
           </form>
+          <button
+            className="mt-5 w-full rounded-md px-6 py-3 text-black shadow-md ring-1 ring-gray-400 transition-all duration-200 active:bg-gray-400 active:bg-opacity-20"
+            onClick={() => router.push("/register")}
+          >
+            회원가입
+          </button>
         </div>
       </div>
       <ToastContainer

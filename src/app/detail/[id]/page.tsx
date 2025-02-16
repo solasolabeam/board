@@ -92,10 +92,14 @@ export default function DetailPage() {
             </div>
             <div className="flex items-center bg-gray-100 pl-4 text-sm">
               {createdAt &&
-                new Date(createdAt)
-                  .toISOString()
-                  .slice(0, 16)
-                  .replace("T", " ")}
+                new Date(createdAt).toLocaleString("ko-KR", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                })}
             </div>
             <div className="flex items-center justify-center rounded-md bg-gray-700 text-sm font-bold text-white">
               제목

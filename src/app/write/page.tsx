@@ -155,7 +155,7 @@ export default function WritePage() {
     if (searchParams?.get("id")) {
       searchData();
     }
-  }, [searchParams]); // searchParams가 변경될 때마다 실행
+  }, [searchParams, router]); // searchParams가 변경될 때마다 실행
 
   return (
     <div className="mx-auto max-w-[1600px] px-5 pb-16 sm:px-16 lg:px-28">

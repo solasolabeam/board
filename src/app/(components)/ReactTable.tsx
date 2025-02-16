@@ -92,7 +92,7 @@ export default function StickyHeadTable() {
     };
 
     fetchData();
-  }, [page]);
+  }, [page, router]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);

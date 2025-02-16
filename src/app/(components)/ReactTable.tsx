@@ -21,6 +21,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
 
 interface Column {
   id: "no" | "title" | "category" | "createdAt" | "actions";
@@ -113,6 +114,8 @@ export default function StickyHeadTable() {
 
     const newRows = rows.filter((row) => row.id !== id);
     setRows(newRows);
+    setTotalElements((prev) => prev - 1);
+    toast.success("삭제되었습니다!");
   };
 
   return (
@@ -122,9 +125,9 @@ export default function StickyHeadTable() {
           <CircularProgress />
         </Box>
       ) : (
-        <div className="mx-5">
+        <div>
           <div className="mb-4 flex items-center justify-between">
-            <p className="px-4 py-3 text-gray-500">
+            <p className="px-4 py-3 text-gray-500 md:text-base lg:text-lg">
               <FontAwesomeIcon icon={faFile} /> &nbsp; 총{" "}
               <span className="font-bold text-gray-600">{totalElements}</span>건
             </p>
@@ -152,7 +155,7 @@ export default function StickyHeadTable() {
                         }}
                         sx={{
                           // 모바일에서 "actions" 컬럼을 숨기기
-                          "@media (max-width: 600px)": {
+                          "@media (max-width: 870px)": {
                             display:
                               column.id == "actions" || column.id == "category"
                                 ? "none"
@@ -200,8 +203,7 @@ export default function StickyHeadTable() {
                                     column.id === "no" ? "font-bold" : ""
                                   }`}
                                   sx={{
-                                    // 모바일에서 "actions" 컬럼을 숨기기
-                                    "@media (max-width: 600px)": {
+                                    "@media (max-width: 870px)": {
                                       display:
                                         column.id == "actions" ||
                                         column.id == "category"
@@ -262,6 +264,19 @@ export default function StickyHeadTable() {
               onChange={handleChangePage}
             />
           </Stack>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            // transition={Bounce}
+          />
         </div>
       )}
     </>

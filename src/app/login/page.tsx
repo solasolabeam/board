@@ -1,13 +1,17 @@
 "use client";
 
 import { useFormik } from "formik";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import * as Yup from "yup";
-import useUserStore from "../store";
+import { toast, ToastContainer } from "react-toastify";
+// import useUserStore from "../store";
 
 export default function LoginPage() {
   const router = useRouter();
-  const setUser = useUserStore((state) => state.setUser);
+  // const setUser = useUserStore((state) => state.setUser);
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error");
 
   const formik = useFormik({
     initialValues: {
@@ -49,9 +53,9 @@ export default function LoginPage() {
       const data = await (await res).json();
 
       if ((await res).ok) {
-        setUser({
-          username: values.username,
-        });
+        // setUser({
+        //   username: values.username,
+        // });
         document.cookie = `accessToken=${data.accessToken}; path=/;`;
         document.cookie = `refreshToken=${data.refreshToken}; path=/;`;
 
@@ -62,8 +66,15 @@ export default function LoginPage() {
     },
   });
 
+  useEffect(() => {
+    if (error === "token_expired") {
+      console.log("error", error);
+      toast.error("로그인이 필요합니다.");
+    }
+  }, [error]);
+
   return (
-    <div className="mx-5">
+    <div className="mx-auto max-w-5xl px-5 sm:px-28 lg:px-52">
       <div className="mt-10" />
       <div className="mt-48" />
       <div className="flex items-center justify-center">
@@ -99,7 +110,7 @@ export default function LoginPage() {
               <p className="text-xs text-red-500">{formik.errors.password}</p>
             )}
             <button
-              className="rounded-md bg-gray-500 px-6 py-3 text-white shadow-md transition-all duration-200 hover:bg-gray-600 active:bg-gray-400 active:bg-opacity-80"
+              className="rounded-md bg-gray-600 px-6 py-3 text-white shadow-md transition-all duration-200 hover:bg-gray-600 active:bg-gray-400 active:bg-opacity-80"
               // onClick={handleLogin}
               type="submit"
             >
@@ -114,6 +125,19 @@ export default function LoginPage() {
           </form>
         </div>
       </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        // transition={Bounce}
+      />
     </div>
   );
 }

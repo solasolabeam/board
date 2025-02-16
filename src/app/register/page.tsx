@@ -3,7 +3,6 @@
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
-import Header from "../(components)/Header";
 import { toast, ToastContainer } from "react-toastify";
 
 export default function RegisterPage() {
@@ -64,11 +63,10 @@ export default function RegisterPage() {
         }),
       });
 
-      const data = await res.json();
-
       if (res.ok) {
         router.push("/login");
       } else if (res.status == 400) {
+        const data = await res.json();
         if (data.username) {
           toast.error(data.username[0]);
         } else {
@@ -81,7 +79,6 @@ export default function RegisterPage() {
   return (
     <div className="mx-5">
       <div className="mt-10" />
-      <Header />
       <div className="mt-48" />
       <div className="flex items-center justify-center">
         <div className="w-full">

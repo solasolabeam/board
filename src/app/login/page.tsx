@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
+import useUserStore from "../store";
 // import useUserStore from "../store";
 
 export default function LoginPage() {
@@ -17,7 +18,7 @@ export default function LoginPage() {
 
 function LoginForm() {
   const router = useRouter();
-  // const setUser = useUserStore((state) => state.setUser);
+  const setUser = useUserStore((state) => state.setUser);
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
 
@@ -61,9 +62,9 @@ function LoginForm() {
       const data = await (await res).json();
 
       if ((await res).ok) {
-        // setUser({
-        //   username: values.username,
-        // });
+        setUser({
+          username: values.username,
+        });
         document.cookie = `accessToken=${data.accessToken}; path=/;`;
         document.cookie = `refreshToken=${data.refreshToken}; path=/;`;
 

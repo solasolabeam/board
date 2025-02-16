@@ -4,7 +4,7 @@ import StickyHeadTable from "./(components)/ReactTable";
 
 export default function Home() {
   return (
-    <div className="mx-auto max-w-[1600px] px-5 sm:px-16 lg:px-28">
+    <div className="mx-auto max-w-[1600px] px-5 pb-16 sm:px-16 lg:px-28">
       <div className="mt-10" />
       <Header />
       <div className="mt-16" />

@@ -68,7 +68,7 @@ function LoginForm() {
         document.cookie = `accessToken=${data.accessToken}; path=/;`;
         document.cookie = `refreshToken=${data.refreshToken}; path=/;`;
 
-        router.push("/");
+        router.push("/list");
       } else if ((await res).status == 400) {
         toast.error(data.message);
       } else {

@@ -78,6 +78,8 @@ function LoginForm() {
   });
 
   useEffect(() => {
+    document.cookie = "accessToken=; path=/; max-age=0;";
+    document.cookie = "refreshToken=; path=/; max-age=0;";
     if (error === "token_expired") {
       console.log("error", error);
       toast.error("로그인이 필요합니다.");

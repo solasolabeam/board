@@ -32,9 +32,9 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: "no", label: "No.", minWidth: 100, align: "center" },
-  { id: "category", label: "카테고리", minWidth: 150 },
-  { id: "title", label: "제목", minWidth: 150 },
+  { id: "no", label: "No.", minWidth: 60, align: "center" },
+  { id: "category", label: "카테고리", minWidth: 120 },
+  { id: "title", label: "제목", minWidth: 120 },
   {
     id: "createdAt",
     label: "작성일",

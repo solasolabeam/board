@@ -80,7 +80,7 @@ export default function RegisterPage() {
   });
 
   return (
-    <div className="mx-5">
+    <div className="mx-auto max-w-5xl px-5 sm:px-28 lg:px-52">
       <div className="mt-10" />
       <div className="mt-48" />
       <div className="flex items-center justify-center">

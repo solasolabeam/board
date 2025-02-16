@@ -96,7 +96,7 @@ export default function WritePage() {
         searchParams?.get("id") ? "수정되었습니다!" : "저장되었습니다!",
       );
       setTimeout(() => {
-        router.push("/");
+        router.push("/list");
       }, 1000);
     } catch (error) {
       console.error("Upload Error:", error);
@@ -212,7 +212,7 @@ export default function WritePage() {
       <div className="mt-20 flex justify-end gap-2">
         <button
           className="rounded-md bg-gray-400 px-4 py-3 text-white shadow-md transition-all duration-200 hover:bg-gray-400 active:bg-gray-400 active:bg-opacity-80"
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/list")}
         >
           <FontAwesomeIcon icon={faList} />
           &nbsp; 목록

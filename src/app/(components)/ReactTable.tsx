@@ -76,6 +76,11 @@ export default function StickyHeadTable() {
           },
         );
 
+        if (response.status == 401) {
+          router.push("/login?error=unauthorized");
+          return;
+        }
+
         const data = await response.json();
         setRows(data.content);
         setTotalElements(data.totalElements);
@@ -105,12 +110,20 @@ export default function StickyHeadTable() {
     id: number,
   ) => {
     event.stopPropagation();
-    await fetch(`https://front-mission.bigs.or.kr/boards/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: "Bearer " + Cookies.get("accessToken"),
+    const response = await fetch(
+      `https://front-mission.bigs.or.kr/boards/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + Cookies.get("accessToken"),
+        },
       },
-    });
+    );
+
+    if (response.status == 401) {
+      router.push("/login?error=unauthorized");
+      return;
+    }
 
     const newRows = rows.filter((row) => row.id !== id);
     setRows(newRows);

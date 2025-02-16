@@ -49,10 +49,10 @@ export default function DetailPage() {
           },
         );
 
-        // if (response.status === 401) {
-        //   router.push("/login");
-        //   return;
-        // }
+        if (response.status == 401) {
+          router.push("/login?error=unauthorized");
+          return;
+        }
 
         const data = await response.json();
         setCategory(data.boardCategory);

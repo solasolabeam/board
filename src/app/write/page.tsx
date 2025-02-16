@@ -74,7 +74,7 @@ export default function WritePage() {
     );
 
     try {
-      await fetch(
+      const response = await fetch(
         `https://front-mission.bigs.or.kr/boards${
           searchParams?.get("id") ? "/" + searchParams.get("id") : ""
         }`,
@@ -86,6 +86,12 @@ export default function WritePage() {
           body: formData,
         },
       );
+
+      if (response.status == 401) {
+        router.push("/login?error=unauthorized");
+        return;
+      }
+
       toast.success(
         searchParams?.get("id") ? "수정되었습니다!" : "저장되었습니다!",
       );
@@ -107,6 +113,12 @@ export default function WritePage() {
           },
         },
       );
+
+      if (response.status == 401) {
+        router.push("/login?error=unauthorized");
+        return;
+      }
+
       const data = await response.json();
       setCategoryList(data);
     };
@@ -123,6 +135,12 @@ export default function WritePage() {
             },
           },
         );
+
+        if (response.status == 401) {
+          router.push("/login?error=unauthorized");
+          return;
+        }
+
         const data = await response.json();
         setCategory(data.boardCategory || "");
         setContent(data.content || "");

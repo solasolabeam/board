@@ -32,6 +32,7 @@ export default function WritePage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const router = useRouter();
+  const [imageUrl, setImageUrl] = useState("");
 
   // 클라이언트에서만 useSearchParams 사용하기 위해 useEffect로 감싸기
   const [searchParams, setSearchParams] = useState<URLSearchParams | null>(
@@ -52,6 +53,7 @@ export default function WritePage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setFile(e.target.files[0]); // 선택한 파일 저장
+      setImageUrl("");
     }
   };
 
@@ -145,7 +147,7 @@ export default function WritePage() {
         setCategory(data.boardCategory || "");
         setContent(data.content || "");
         setTitle(data.title || "");
-        // setImageUrl(data.imageUrl);
+        setImageUrl(data.imageUrl || "");
       } catch (error) {
         console.error("Error:", error);
       }
@@ -198,6 +200,16 @@ export default function WritePage() {
         />
         <div className="flex items-center justify-end gap-4">
           {file && <p>첨부된 파일: {file.name}</p>}
+          {imageUrl && (
+            <a
+              href={`https://front-mission.bigs.or.kr${imageUrl}`}
+              target="_blank"
+            >
+              <p className="cursor-pointer hover:text-blue-500">
+                첨부된 파일: {imageUrl.replace("/media/images/", "")}
+              </p>
+            </a>
+          )}
           <Button
             variant="contained"
             component="label"

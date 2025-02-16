@@ -10,6 +10,7 @@ import { Box, CircularProgress } from "@mui/material";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function DetailPage() {
   const params = useParams();
@@ -29,7 +30,10 @@ export default function DetailPage() {
       },
     });
 
-    router.push("/");
+    toast.success("삭제되었습니다!");
+    setTimeout(() => {
+      router.push("/");
+    }, 1000);
   };
 
   useEffect(() => {
@@ -146,6 +150,19 @@ export default function DetailPage() {
           </div>
         </>
       )}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        // transition={Bounce}
+      />
     </div>
   );
 }

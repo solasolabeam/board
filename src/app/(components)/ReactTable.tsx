@@ -32,9 +32,9 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: "no", label: "No.", minWidth: 50, align: "center" },
-  { id: "title", label: "제목", minWidth: 100 },
-  { id: "category", label: "카테고리", minWidth: 100 },
+  { id: "no", label: "No.", minWidth: 100, align: "center" },
+  { id: "category", label: "카테고리", minWidth: 150 },
+  { id: "title", label: "제목", minWidth: 150 },
   {
     id: "createdAt",
     label: "작성일",
@@ -42,7 +42,7 @@ const columns: readonly Column[] = [
     align: "center",
     format: (value: string) => value.split("T")[0],
   },
-  { id: "actions", label: "", align: "center", minWidth: 300 },
+  { id: "actions", label: "", align: "right", minWidth: 50 },
 ];
 
 interface Row {

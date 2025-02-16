@@ -125,8 +125,18 @@ export default function StickyHeadTable() {
       return;
     }
 
+    const listResponse = await fetch(
+      `https://front-mission.bigs.or.kr/boards?page=${page - 1}&size=10`,
+      {
+        headers: {
+          Authorization: "Bearer " + Cookies.get("accessToken"),
+        },
+      },
+    );
+
     const newRows = rows.filter((row) => row.id !== id);
     setRows(newRows);
+    setTotalPages((await listResponse.json()).totalPages);
     setTotalElements((prev) => prev - 1);
     toast.success("삭제되었습니다!");
   };

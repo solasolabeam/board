@@ -2,12 +2,20 @@
 
 import { useFormik } from "formik";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import * as Yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 // import useUserStore from "../store";
 
 export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const router = useRouter();
   // const setUser = useUserStore((state) => state.setUser);
   const searchParams = useSearchParams();
